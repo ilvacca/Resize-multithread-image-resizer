@@ -2,7 +2,6 @@ import os
 from PIL import Image
 from resizeimage import resizeimage
 import Tkinter, tkFileDialog
-import re
 
 root = Tkinter.Tk()
 root.withdraw()
