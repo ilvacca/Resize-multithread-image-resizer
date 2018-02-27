@@ -1,4 +1,4 @@
-from os import listdir
+import os
 from PIL import Image
 from resizeimage import resizeimage
 import Tkinter, tkFileDialog
@@ -9,21 +9,20 @@ root.withdraw()
 imagelist = []
 c=0
 
-path = tkFileDialog.askdirectory(parent=root,initialdir="C:/Users/Alessio/Desktop/",title='Select photo folder')
+filelist = tkFileDialog.askopenfilename(initialdir = "C:/",title = "Select photo folder",filetypes = (("JPEG files","*.jpg *.jpeg"),("PNG files","*.png"),("all files","*.*")),multiple=1)
+path = os.path.dirname(filelist[0])+"/"
 destination_folder=tkFileDialog.askdirectory(parent=root,initialdir=path,title='Destination directory')
 
 destination_extention=raw_input("Destination extention [JPG,jpeg,png,bmp]: ")
 if destination_extention == "":
     destination_extention = "jpg"
+print "Found %d %s images in %s\n"%(len(imagelist),filelist[0].split(".")[-1],path)
 
-filelist = listdir(path)
 w = int(raw_input("Height: "))
 h = int(raw_input("Width: "))
 
-for files in filelist:
-    if type(re.search("(.png)$",files)) is not type(None):
-        imagelist.append(files)
-print "Found %d %s images in %s\n"%(len(imagelist),destination_extention,path)
+for f in filelist:
+    imagelist.append(f.replace(path,""))
                 
 for file in imagelist:
     c+=1
@@ -33,4 +32,3 @@ for file in imagelist:
             cover = resizeimage.resize_cover(image, [w, h])
             cover.save(destination_folder+"/"+namefile, image.format)
             print "%d/%d - Saved %s"%(c,len(imagelist),namefile)
- 
