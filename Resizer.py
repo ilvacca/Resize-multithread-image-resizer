@@ -13,7 +13,7 @@ c=0
 filelist = tkFileDialog.askopenfilename(initialdir = "C:/",title = "Select photo folder",filetypes = (("JPEG files","*.jpg *.jpeg"),("PNG files","*.png"),("all files","*.*")),multiple=1)
 path = os.path.dirname(filelist[0])+"/"
 destination_folder=tkFileDialog.askdirectory(parent=root,initialdir=path,title='Destination directory')
-print "Found %d %s images in %s\n"%(len(imagelist),filelist[0].split(".")[-1],path)
+print "Found %d %s images in %s\n"%(len(filelist),filelist[0].split(".")[-1],path)
 
 # Select destination extention
 destination_extention=raw_input("Destination extention [JPG,jpeg,png,bmp]: ")
