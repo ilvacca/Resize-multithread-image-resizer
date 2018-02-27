@@ -20,8 +20,8 @@ if destination_extention == "":
     destination_extention = "jpg"
 
 # Select output geometries
-w = int(raw_input("Output height: "))
-h = int(raw_input("Output width: "))
+w = int(raw_input("Output width: "))
+h = int(raw_input("Output height: "))
 
 # Populate filename list
 for f in filelist:
