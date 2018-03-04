@@ -80,17 +80,28 @@ class App():
         self.header = header(root,150,300,"Header1.png")
 
     # FRAME -----------------------
-        self.frame1 = frame(root,"#151515","#1E824C","#ccc","#4DAF7C",None,10)
+        self.frame1 = frame(root,"#151515","#1E824C","#CCC","#6EDFA4","#4DAF7C","#252525",None,10)
         self.number1 = frame_number(self.frame1,"1")
-        self.frame2 = frame(root,"#202020","purple","#ccc","black",None,10)
+        self.frame1.excited()
+        self.number1.excited()
+        
+
+        self.frame2 = frame(root,"#202020","#319B5C","#CCC","#75EDAF","#58B283","#303030",None,10)
         self.number2 = frame_number(self.frame2,"2")
-        self.frame3 = frame(root,"#252525","purple","#ccc","black",None,10)
+    
+
+        self.frame3 = frame(root,"#242424","#42AD6E","#CCC","#6EDFA4","#6EB892","#343434",None,10)
         self.number3 = frame_number(self.frame3,"3")
 
-        self.button_select_images = button(self.frame1,"Select images",None,"yellow","white","black","green",0,1,6,18,0)
-        self.button_select_folder = button(self.frame2,"Select output folder",None,"yellow","white","black","green",0,1,6,18,0)
+        self.button_select_images = button(self.frame1,"Select images",None,"yellow","black","#166139","#c3ffc3",0,1,6,18,0)
+        self.button_select_folder = button(self.frame2,"Select output folder",None,"yellow","white","#166139","#c3ffc3",0,1,6,18,0)
+        self.button_select_images.excited()
+        self.button_select_images.set_inner_text("Click to Reset")
 
-        self.text1 = frame_text(self.frame1,"Inserisci cose")
+        self.text1 = frame_text(self.frame1,"Select some images")
+        self.text2 = frame_text(self.frame2,"Select an output folder")
+        self.text1.excited()
+
     
     # MENU ------------------------
         self.menu = menu(root)

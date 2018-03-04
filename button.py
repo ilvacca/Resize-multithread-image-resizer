@@ -15,7 +15,7 @@ class button:
         self.exc_fg = exc_fg
         self.command = command
 
-        self.button = Tkinter.Button(self.frame.frame,text=self.inside_text,command=self.command,pady=pady,width=width,bd=bd)
+        self.button = Tkinter.Button(self.frame.frame,bg=self.bg,text=self.inside_text,command=self.command,pady=pady,width=width,bd=bd)
         self.button.grid(row=row,column=column)
 
     def excited(self):
@@ -23,3 +23,6 @@ class button:
         
     def unexcited(self):
         self.button.config(bg=self.bg,fg=self.fg)
+    
+    def set_inner_text(self,text):
+        self.button.config(text=text)
