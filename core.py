@@ -5,87 +5,14 @@ import datetime
 import Tkinter
 import tkFileDialog
 
+from header import header
 from menu import menu
+from frames import frame, frame_number, frame_text
+from logconsole import TraceConsole
+from button import button
 
 selected_font = "Helvetica"
 
-def actual_time():
-    return datetime.datetime.now().strftime("%H:%M:%S")
-
-
-
-class header:
-    
-    def __init__(self,root,h,w,photo_dir):
-        self.root = root
-        self.height = h
-        self.width = w
-        self.photo_dir = photo_dir
-        self.img = Image.open("Header1.png").resize((self.width,self.height))
-        self.image = ImageTk.PhotoImage(self.img) # 300,150
-        self.header = Tkinter.Label(image=self.image,height=self.height,bd=0)  #140
-        self.header.pack()
-
-class frame:
-    
-    def __init__(self,root,bg,exc_bg,fg,exc_fg,height):
-        self.bg = bg
-        self.exc_bg = exc_bg
-        self.fg=fg
-        self.exc_fg=exc_fg
-        self.height = height
-        self.frame = Tkinter.Frame(root,height=self.height,bg=self.bg)
-        self.frame.pack(fill="x")
-
-    def excited(self):
-        self.frame.config(bg=self.exc_bg)
-
-    def unexcited(self):
-        self.frame.config(bg=self.bg)
-
-class frame_number:
-    
-        def __init__(self,frame,number):
-            self.frame = frame
-            self.bg = self.frame.bg
-            self.fg = self.frame.fg
-            self.exc_bg = self.frame.exc_bg
-            self.exc_fg = self.frame.exc_fg
-            
-            self.number = Tkinter.Label(frame.frame,text=number,bg=self.bg,fg=self.fg,font=(selected_font,30),padx=40)
-            self.number.grid(row=0,column=0,rowspan=2)
-
-        def excited(self):
-            self.frame.config(bg=self.exc_bg,fg=self.exc_fg)
-
-        def unexcited(self):
-            self.frame.config(bg=self.bg,fg=self.fg)
-
-class TraceConsole:
-    
-    def __init__(self,root):
-                
-        # Container dei widget "Text" e "Scrollbar"
-        self.logger_container = Tkinter.Frame()
-        self.logger_container.pack()
-
-        # Widget "Text"
-        self._log = Tkinter.Text(self.logger_container, wrap=Tkinter.NONE, height=4,font=(selected_font, 8))
-        self._log.configure(fg="#bbbbbb", bg="#404040",bd=0,padx=8,pady=8)
-        #self._log.grid(row=0,column=0,columnspan=10)
-        self._log.pack(fill="x")
-        
-        # Widget "Scrollbar"
-        #self._scrollb = Tkinter.Scrollbar(self.logger_container, orient=Tkinter.VERTICAL,bg="red",activebackground="blue",bd=0)
-        #self._scrollb.configure(command=self._log.yview)
-        #self._scrollb.grid(row=0,column=10,columnspan=1,sticky="nes")
-        
-        #self._log.config(yscrollcommand=self._scrollb.set)
-
-    def log(self, msg, level=None):
-        # La funzione della classe "TraceConsole" che scrive nel log
-        self._log.insert('end',actual_time()+" - "+msg+"\n")
-        self._log.see(Tkinter.END)
 
 class image_list():
 
@@ -153,10 +80,17 @@ class App():
         self.header = header(root,150,300,"Header1.png")
 
     # FRAME -----------------------
-        self.frame1 = frame(root,"red","purple","yellow","black",50)
-        self.number1 = frame_number(self.frame1,"12")
-        self.frame2 = frame(root,"purple","purple","yellow","black",50)
-        self.frame3 = frame(root,"blue","purple","yellow","black",50)
+        self.frame1 = frame(root,"#151515","#1E824C","#ccc","#4DAF7C",None,10)
+        self.number1 = frame_number(self.frame1,"1")
+        self.frame2 = frame(root,"#202020","purple","#ccc","black",None,10)
+        self.number2 = frame_number(self.frame2,"2")
+        self.frame3 = frame(root,"#252525","purple","#ccc","black",None,10)
+        self.number3 = frame_number(self.frame3,"3")
+
+        self.button_select_images = button(self.frame1,"Select images",None,"yellow","white","black","green",0,1,6,18,0)
+        self.button_select_folder = button(self.frame2,"Select output folder",None,"yellow","white","black","green",0,1,6,18,0)
+
+        self.text1 = frame_text(self.frame1,"Inserisci cose")
     
     # MENU ------------------------
         self.menu = menu(root)
@@ -169,7 +103,6 @@ class App():
         #root.resizable(False, False)                ################################# LEVARE COMMENTO
         
     # FRAME NUMBER 1 [FRAME SELECTOR] ------
-
         self.frame1_background = "#151515"
         self.frame1_foreground = "#ccc"
         self.frame1_number_foreground = "#252525"
