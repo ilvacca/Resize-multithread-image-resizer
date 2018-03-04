@@ -1,6 +1,14 @@
 # Python compiled files
 *.pyc
 
+# Other
+Pipfile
+Pipfile.lock
+
+# Directories
+.idea
+.vscode
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -49,3 +57,4 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.jpg
+
