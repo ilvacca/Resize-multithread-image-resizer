@@ -9,7 +9,7 @@ class header:
         self.height = h
         self.width = w
         self.photo_dir = photo_dir
-        self.img = Image.open("Header1.png").resize((self.width,self.height))
+        self.img = Image.open(self.photo_dir).resize((self.width,self.height))
         self.image = ImageTk.PhotoImage(self.img) # 300,150
         self.header = Tkinter.Label(image=self.image,height=self.height,bd=0)  #140
         self.header.pack()

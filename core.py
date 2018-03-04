@@ -4,7 +4,10 @@ from PIL import Image, ImageTk
 import datetime
 import Tkinter
 import tkFileDialog
+import sys
+sys.path.insert(0, "modules")
 
+from button import button
 from header import header
 from menu import menu
 from frames import frame, frame_number, frame_text
@@ -17,6 +20,7 @@ selected_font = "Helvetica"
 class image_list():
 
     def __init__(self):
+        """Inizializzazione della classe"""
         self.namelist=[]
         self.width_output=0
         try:
@@ -77,7 +81,7 @@ class App():
         self.oldW,self.oldH = 0,0
 
     # HEADER ----------------------
-        self.header = header(root,150,300,"Header1.png")
+        self.header = header(root,150,300,"images/Header1.png")
 
     # FRAME -----------------------
         self.frame1 = frame(root,"#151515","#1E824C","#CCC","#6EDFA4","#4DAF7C","#252525",None,10)
@@ -107,7 +111,7 @@ class App():
         root.title("RESIZE")
         root.geometry("300x500")
         root.configure(background='#252525')
-        root.iconbitmap("Iconv1.ico")
+        root.iconbitmap("images/Iconv1.ico")
         #root.resizable(False, False)                ################################# LEVARE COMMENTO
         
     # FRAME NUMBER 1 [FRAME SELECTOR] ------
