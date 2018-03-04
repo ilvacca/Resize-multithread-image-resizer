@@ -13,9 +13,10 @@ from menu import menu
 from frames import frame, frame_number, frame_text
 from logconsole import TraceConsole
 from button import button
+from subframe import subframe
+from entry import entry, entry_selector
 
 selected_font = "Helvetica"
-
 
 class image_list():
 
@@ -75,6 +76,11 @@ class image_list():
 class App():
 
     def __init__(self,root):
+        
+        root.title("RESIZE")
+        root.geometry("300x500")
+        root.configure(background='#252525')
+        root.iconbitmap("images/Iconv1.ico")
 
         self.image_list=0
         self.ready_to_resize = False
@@ -86,8 +92,6 @@ class App():
     # FRAME -----------------------
         self.frame1 = frame(root,"#151515","#1E824C","#CCC","#6EDFA4","#4DAF7C","#252525",None,10)
         self.number1 = frame_number(self.frame1,"1")
-        self.frame1.excited()
-        self.number1.excited()
 
         self.frame2 = frame(root,"#202020","#319B5C","#CCC","#75EDAF","#58B283","#303030",None,10)
         self.number2 = frame_number(self.frame2,"2")
@@ -97,21 +101,30 @@ class App():
 
         self.button_select_images = button(self.frame1,"Select images",None,"yellow","black","#166139","#c3ffc3",0,1,6,18,0)
         self.button_select_folder = button(self.frame2,"Select output folder",None,"yellow","white","#166139","#c3ffc3",0,1,6,18,0)
-        self.button_select_images.excited()
         self.button_select_images.set_inner_text("Click to Reset")
 
         self.text1 = frame_text(self.frame1,"Select some images")
         self.text2 = frame_text(self.frame2,"Select an output folder")
-        self.text1.excited()
+
+        self.subframe_frame3 = subframe(self.frame3,0,2,4,4,None)
+        
+        self.entry_selector_row1 = entry_selector(self.subframe_frame3.subframe,0,None,0,0,"W H","normal",8,8,3,"red","yellow","blue")
+        self.entry_W_row1 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",0,1,2,4,"e",8)
+        self.entry_H_row1 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",0,2,2,4,"e",8)
+
+        self.entry_selector_row2 = entry_selector(self.subframe_frame3.subframe,1,None,1,0,"W","normal",8,8,3,"red","yellow","blue")
+        self.entry_W_row2 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",1,1,2,4,"e",8)
+        self.entry_H_row2 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",1,2,2,4,"e",8)
+
+        self.entry_selector_row3 = entry_selector(self.subframe_frame3.subframe,2,None,2,0,"H","normal",8,8,3,"red","yellow","blue")
+        self.entry_W_row3 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",2,1,2,4,"e",8)
+        self.entry_H_row3 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",2,2,2,4,"e",8)
     
     # MENU ------------------------
         self.menu = menu(root)
 
     # ROOT ------------------------
-        root.title("RESIZE")
-        root.geometry("300x500")
-        root.configure(background='#252525')
-        root.iconbitmap("images/Iconv1.ico")
+        
         #root.resizable(False, False)                ################################# LEVARE COMMENTO
         
     # FRAME NUMBER 1 [FRAME SELECTOR] ------
