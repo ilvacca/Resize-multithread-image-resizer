@@ -84,11 +84,9 @@ class App():
         self.number1 = frame_number(self.frame1,"1")
         self.frame1.excited()
         self.number1.excited()
-        
 
         self.frame2 = frame(root,"#202020","#319B5C","#CCC","#75EDAF","#58B283","#303030",None,10)
         self.number2 = frame_number(self.frame2,"2")
-    
 
         self.frame3 = frame(root,"#242424","#42AD6E","#CCC","#6EDFA4","#6EB892","#343434",None,10)
         self.number3 = frame_number(self.frame3,"3")
@@ -101,7 +99,6 @@ class App():
         self.text1 = frame_text(self.frame1,"Select some images")
         self.text2 = frame_text(self.frame2,"Select an output folder")
         self.text1.excited()
-
     
     # MENU ------------------------
         self.menu = menu(root)
