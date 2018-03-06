@@ -116,18 +116,20 @@ class App():
 
         self.subframe_frame3 = subframe(self.frame3,0,2,4,4,None)
         
-        self.entry_selector_row1 = entry_selector(self.subframe_frame3.subframe,0,None,0,0,"W H","normal",8,8,3,"red","yellow","blue")
-        self.entry_W_row1 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",0,1,2,4,"e",8)
-        self.entry_H_row1 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",0,2,2,4,"e",8)
+        self.entry_selector_row1 = entry_selector(self.subframe_frame3.subframe,0,None,0,0,"W H","normal",8,3)
+        self.entry_W_row1 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",0,1,4)
+        self.entry_H_row1 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",0,2,4)
 
-        self.entry_selector_row2 = entry_selector(self.subframe_frame3.subframe,1,None,1,0,"W","normal",8,8,3,"red","yellow","blue")
-        self.entry_W_row2 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",1,1,2,4,"e",8)
-        self.entry_H_row2 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",1,2,2,4,"e",8)
+        self.entry_selector_row2 = entry_selector(self.subframe_frame3.subframe,1,None,1,0,"W","normal",8,3)
+        self.entry_W_row2 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",1,1,4)
+        self.entry_H_row2 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",1,2,4)
 
-        self.entry_selector_row3 = entry_selector(self.subframe_frame3.subframe,2,None,2,0,"H","normal",8,8,3,"red","yellow","blue")
-        self.entry_W_row3 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",2,1,2,4,"e",8)
-        self.entry_H_row3 = entry(self.subframe_frame3.subframe,"red","yellow","blue","orange","cyan",2,2,2,4,"e",8)
+        self.entry_selector_row3 = entry_selector(self.subframe_frame3.subframe,2,None,2,0,"H","normal",8,3)
+        self.entry_W_row3 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",2,1,4)
+        self.entry_H_row3 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",2,2,4)
     
+
+
     # MENU ------------------------
         self.menu = menu(root)
 
