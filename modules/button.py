@@ -1,4 +1,5 @@
 import Tkinter
+from supports import actual_time
 
 class button:
     
@@ -26,3 +27,6 @@ class button:
     
     def set_inner_text(self,text):
         self.button.config(text=text)
+
+    def set_command(self,command):
+        self.button.config(command=command)

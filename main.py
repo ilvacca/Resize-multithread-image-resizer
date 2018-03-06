@@ -15,23 +15,26 @@ from logconsole import TraceConsole
 from button import button
 from subframe import subframe
 from entry import entry, entry_selector
+from supports import actual_time
 
 selected_font = "Helvetica"
 
-class image_list():
+class image_list(): 
 
     def __init__(self):
         """Inizializzazione della classe"""
         self.namelist=[]
         self.width_output=0
+        self.listIsEmpty = True
         try:
-            self.list = tkFileDialog.askopenfilename(initialdir = "C:/",title = "Select images",filetypes = (("JPEG files","*.jpg *.jpeg"),("PNG files","*.png"),("all files","*.*")),multiple=1)      
+            self.list = tkFileDialog.askopenfilename(initialdir = "C:/",title = "Select images",filetypes = (("PNG files","*.png"),("JPEG files","*.jpg *.jpeg"),("all files","*.*")),multiple=1)
             self.path = os.path.dirname(self.list[0])+"/"
+            self.listIsEmpty = False
             for f in self.list:
                 self.namelist.append(f.replace(self.path,""))
-            #print "%s - Found %d %s images in %s" % (actual_time(),len(self.list), self.list[0].split(".")[-1], self.path)
         except:
-            print "%s - No images selected" % (actual_time())
+            self.listIsEmpty = True
+            #print "%s - No images selected" % (actual_time())
         
     def set_destination_folder(self):
         self.destination_folder=tkFileDialog.askdirectory(parent=root,initialdir=self.path,title='Destination directory')
@@ -82,7 +85,9 @@ class App():
         root.configure(background='#252525')
         root.iconbitmap("images/Iconv1.ico")
 
-        self.image_list=0
+        self.hasImageList = False
+        self.hasOutputFolder = False
+        self.image_list = False
         self.ready_to_resize = False
         self.oldW,self.oldH = 0,0
 
@@ -99,9 +104,9 @@ class App():
         self.frame3 = frame(root,"#242424","#42AD6E","#CCC","#6EDFA4","#6EB892","#343434",None,10)
         self.number3 = frame_number(self.frame3,"3")
 
-        self.button_select_images = button(self.frame1,"Select images",None,"yellow","black","#166139","#c3ffc3",0,1,6,18,0)
-        self.button_select_folder = button(self.frame2,"Select output folder",None,"yellow","white","#166139","#c3ffc3",0,1,6,18,0)
-        self.button_select_images.set_inner_text("Click to Reset")
+        self.button_select_images = button(self.frame1,"Select images",self.select_images,"#ddd","black","#166139","#c3ffc3",0,1,6,18,0)
+        self.button_select_folder = button(self.frame2,"Select output folder",None,"#ddd","white","#166139","#c3ffc3",0,1,6,18,0)
+        # SET INNER TEXT EXAMPLE: self.button_select_images.set_inner_text("Click to Reset")
 
         self.text1 = frame_text(self.frame1,"Select some images")
         self.text2 = frame_text(self.frame2,"Select an output folder")
@@ -125,8 +130,10 @@ class App():
 
     # ROOT ------------------------
         
-        #root.resizable(False, False)                ################################# LEVARE COMMENTO
+        #root.resizable(False, False)                ################################# LEVARE COMMENTO IN FUTURO
         
+
+
     # FRAME NUMBER 1 [FRAME SELECTOR] ------
         self.frame1_background = "#151515"
         self.frame1_foreground = "#ccc"
@@ -268,10 +275,34 @@ class App():
         self.entryHeight_3.config(state="normal")
         self.geometry_method=2
 
+    def frame1_excited(self,number_of_images_in_list):
+        self.button_select_images.set_inner_text("Reset image list")
+        self.button_select_images.excited()
+        self.frame1.excited()
+        self.number1.excited()
+        self.text1.excited()
+        self.text1.set_text("Selected %s images"%number_of_images_in_list)
+
+    def frame1_unexcited(self):
+        self.button_select_images.set_inner_text("Select images")
+        self.button_select_images.unexcited()
+        self.frame1.unexcited()
+        self.number1.unexcited()
+        self.text1.unexcited()
+        self.text1.set_text("Select some images")
+
     def select_images(self):
-        il = image_list()
-        self.image_list=il
-        self.ready_to_choose_folder_switcher(self.image_list.list)
+        if self.image_list == False:
+            self.image_list = image_list()
+            if self.image_list.listIsEmpty == True:
+                self.image_list = False
+            elif self.image_list.listIsEmpty == False:
+                self.frame1_excited(len(self.image_list.namelist))
+        else:
+            self.image_list = False
+            self.frame1_unexcited()
+
+        #self.ready_to_choose_folder_switcher(self.image_list.list)
         
     def ready_to_choose_folder_switcher(self,list):
         if len(list) > 0:
