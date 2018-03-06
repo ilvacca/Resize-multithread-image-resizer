@@ -88,6 +88,8 @@ class App():
         self.hasImageList = False
         self.hasOutputFolder = False
         self.image_list = False
+        self.output_folder = None
+
         self.ready_to_resize = False
         self.oldW,self.oldH = 0,0
 
@@ -105,7 +107,8 @@ class App():
         self.number3 = frame_number(self.frame3,"3")
 
         self.button_select_images = button(self.frame1,"Select images",self.select_images,"#ddd","black","#166139","#c3ffc3",0,1,6,18,0)
-        self.button_select_folder = button(self.frame2,"Select output folder",None,"#ddd","white","#166139","#c3ffc3",0,1,6,18,0)
+        self.button_select_folder = button(self.frame2,"Select output folder",self.select_folder,"#ddd","black","#166139","#c3ffc3",0,1,6,18,0)
+        self.button_select_folder.is_clickable(False)
         # SET INNER TEXT EXAMPLE: self.button_select_images.set_inner_text("Click to Reset")
 
         self.text1 = frame_text(self.frame1,"Select some images")
@@ -275,6 +278,22 @@ class App():
         self.entryHeight_3.config(state="normal")
         self.geometry_method=2
 
+    def frame2_excited(self):
+        self.button_select_images.set_inner_text("Reset workflow")
+        self.button_select_folder.set_inner_text("Reset folder")
+        self.button_select_folder.excited()
+        self.frame2.excited()
+        self.number2.excited()
+        self.text2.excited()
+
+    def frame2_unexcited(self):
+        self.button_select_folder.set_inner_text("Select output folder")
+        self.output_folder = None
+        self.button_select_folder.unexcited()
+        self.frame2.unexcited()
+        self.number2.unexcited()
+        self.text2.unexcited()
+
     def frame1_excited(self,number_of_images_in_list):
         self.button_select_images.set_inner_text("Reset image list")
         self.button_select_images.excited()
@@ -282,14 +301,18 @@ class App():
         self.number1.excited()
         self.text1.excited()
         self.text1.set_text("Selected %s images"%number_of_images_in_list)
+        self.button_select_folder.is_clickable(True)
 
-    def frame1_unexcited(self):
+    def frame1_unexcited(self):        
+        self.image_list = False
         self.button_select_images.set_inner_text("Select images")
         self.button_select_images.unexcited()
         self.frame1.unexcited()
         self.number1.unexcited()
         self.text1.unexcited()
         self.text1.set_text("Select some images")
+        self.button_select_folder.is_clickable(False)
+        self.frame2_unexcited()
 
     def select_images(self):
         if self.image_list == False:
@@ -299,11 +322,20 @@ class App():
             elif self.image_list.listIsEmpty == False:
                 self.frame1_excited(len(self.image_list.namelist))
         else:
-            self.image_list = False
             self.frame1_unexcited()
 
-        #self.ready_to_choose_folder_switcher(self.image_list.list)
+    def select_folder(self):
         
+        # Se l'output folder non è ancora settata prova a settarla
+        if self.output_folder == None:
+            # Chiamo il metodo per popolare la variabile
+            self.image_list.set_destination_folder()
+            self.output_folder = self.image_list.destination_folder
+            self.frame2_excited()
+        # Altrimenti lasciala non settata
+        else:            
+            self.frame2_unexcited()
+
     def ready_to_choose_folder_switcher(self,list):
         if len(list) > 0:
             self.logger.log("Found %d images. Select an output folder"%(len(list)))

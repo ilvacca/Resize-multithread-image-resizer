@@ -19,6 +19,12 @@ class button:
         self.button = Tkinter.Button(self.frame.frame,bg=self.bg,text=self.inside_text,command=self.command,pady=pady,width=width,bd=bd)
         self.button.grid(row=row,column=column)
 
+    def is_clickable(self,b):
+        if b == True:
+            self.button.config(state="normal")
+        elif b == False:
+            self.button.config(state="disabled")
+
     def excited(self):
         self.button.config(bg=self.exc_bg,fg=self.exc_fg)
         
