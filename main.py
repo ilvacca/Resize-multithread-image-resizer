@@ -1,13 +1,13 @@
+# coding=utf-8
+
 from resizeimage import resizeimage
 import os
-from PIL import Image, ImageTk
-import datetime
+from PIL import Image
 import Tkinter
 import tkFileDialog
 import sys
 sys.path.insert(0, "modules")
 
-from button import button
 from header import header
 from menu import menu
 from frames import frame, frame_number, frame_text
@@ -127,8 +127,8 @@ class App():
         self.entry_selector_row3 = entry_selector(self.subframe_frame3.subframe,2,None,2,0,"H","normal",8,3)
         self.entry_W_row3 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",2,1,4)
         self.entry_H_row3 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",2,2,4)
-    
 
+        root.config(bd=0)
 
     # MENU ------------------------
         self.menu = menu(root)
@@ -136,8 +136,6 @@ class App():
     # ROOT ------------------------
         
         #root.resizable(False, False)                ################################# LEVARE COMMENTO IN FUTURO
-        
-
 
     # FRAME NUMBER 1 [FRAME SELECTOR] ------
         self.frame1_background = "#151515"
@@ -153,8 +151,7 @@ class App():
         self.frame_number_1 = Tkinter.Label(self.frame_select_images,text="1",bg=self.frame1_background,fg=self.frame1_number_foreground, font=(selected_font, 30),padx=40)
         self.frame_number_1.grid(row=0,column=0,rowspan=2)
 
-        self.select_images = Tkinter.Button(self.frame_select_images,text="Select Images",\
-            command=self.select_images,pady=6,width=18,bd=0)
+        self.select_images = Tkinter.Button(self.frame_select_images,text="Select Images",command=self.select_images,pady=6,width=18,bd=0)
         self.select_images.grid(row=0,column=1)
 
         self.images_found_text = Tkinter.Label(self.frame_select_images,text="Select some images first",bg=self.frame1_background,fg=self.frame1_foreground)
