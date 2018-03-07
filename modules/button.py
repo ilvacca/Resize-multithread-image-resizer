@@ -2,22 +2,31 @@ import Tkinter
 from supports import actual_time
 
 class button:
-    
-    #self.select_images = Tkinter.Button(self.frame_select_images,text="Select Images",\
-        #command=self.select_images,pady=6,width=18,bd=0)
-    #self.select_images.grid(row=0,column=1)
 
-    def __init__(self,frame,inside_text,command,bg,fg,exc_bg,exc_fg,row,column,pady,width,bd):
+    def __init__(self,frame,inside_text,command,row,column,columnspan):
+
+        # Structural properties
         self.frame = frame
         self.inside_text = inside_text
-        self.bg = bg
-        self.fg = fg
-        self.exc_bg = exc_bg
-        self.exc_fg = exc_fg
         self.command = command
 
-        self.button = Tkinter.Button(self.frame.frame,bg=self.bg,text=self.inside_text,command=self.command,pady=pady,width=width,bd=bd)
-        self.button.grid(row=row,column=column)
+        # Color properties
+        self.bg = "#DDD"
+        self.fg = "#151515"
+        self.exc_bg = "#166139"
+        self.exc_fg = "#C3FFC3"
+
+        # Geometric properties
+        self.row = row
+        self.column = column
+        self.pady = 6
+        self.bd = 0
+        self.width = 18
+        self.columnspan = columnspan
+
+        # Instancer
+        self.button = Tkinter.Button(self.frame.frame,bg=self.bg,text=self.inside_text,command=self.command,pady=self.pady,width=self.width,bd=self.bd)
+        self.button.grid(row=self.row,column=self.column,columnspan=self.columnspan)
 
     def is_clickable(self,b):
         if b == True:

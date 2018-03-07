@@ -19,7 +19,7 @@ from supports import actual_time
 
 selected_font = "Helvetica"
 
-class image_list(): 
+class image_list:
 
     def __init__(self):
         """Inizializzazione della classe"""
@@ -76,57 +76,74 @@ class image_list():
                         image.save(self.destination_folder+"/"+namefile,"JPEG",quality=100)
                         #print "%s - %d/%d - Saved %s" % (actual_time(),counter,len(self.list),namefile)
 
-class App():
+class App:
 
     def __init__(self,root):
-        
+
+        """
+        INITIALIZE "APP" OBJECT
+
+        Keywords Argument:
+            root = Tkinter object in which the App will be packed() = Tk.Tkinter()
+
+        :param root:
+
+        """
+
+        # Tkinter properties
         root.title("RESIZE")
-        root.geometry("300x500")
+        root.geometry("300x520")
         root.configure(background='#252525')
         root.iconbitmap("images/Iconv1.ico")
+        #root.resizable(False, False)                ################################# LEVARE COMMENTO IN FUTURO
 
         self.hasImageList = False
         self.hasOutputFolder = False
         self.image_list = False
         self.output_folder = None
 
+        self.geometry_method = 0
+
         self.ready_to_resize = False
         self.oldW,self.oldH = 0,0
 
     # HEADER ----------------------
-        self.header = header(root,150,300,"images/Header1.png")
+        self.header = header(root,"images/Header1.png")
 
     # FRAME -----------------------
-        self.frame1 = frame(root,"#151515","#1E824C","#CCC","#6EDFA4","#4DAF7C","#252525",None,10)
+        self.frame1 = frame(root,"#151515","#1E824C","#6EDFA4","#4DAF7C","#252525")
         self.number1 = frame_number(self.frame1,"1")
 
-        self.frame2 = frame(root,"#202020","#319B5C","#CCC","#75EDAF","#58B283","#303030",None,10)
+        self.frame2 = frame(root,"#202020","#319B5C","#75EDAF","#58B283","#303030")
         self.number2 = frame_number(self.frame2,"2")
 
-        self.frame3 = frame(root,"#242424","#42AD6E","#CCC","#6EDFA4","#6EB892","#343434",None,10)
+        self.frame3 = frame(root,"#242424","#42AD6E","#6EDFA4","#6EB892","#343434")
         self.number3 = frame_number(self.frame3,"3")
 
-        self.button_select_images = button(self.frame1,"Select images",self.select_images,"#ddd","black","#166139","#c3ffc3",0,1,6,18,0)
-        self.button_select_folder = button(self.frame2,"Select output folder",self.select_folder,"#ddd","black","#166139","#c3ffc3",0,1,6,18,0)
+        self.button_select_images = button(self.frame1,"Select images",self.select_images,0,1,None)
+        self.button_select_folder = button(self.frame2,"Select output folder",self.select_folder,0,1,None)
         self.button_select_folder.is_clickable(False)
         # SET INNER TEXT EXAMPLE: self.button_select_images.set_inner_text("Click to Reset")
 
         self.text1 = frame_text(self.frame1,"Select some images")
         self.text2 = frame_text(self.frame2,"Select an output folder")
 
-        self.subframe_frame3 = subframe(self.frame3,0,2,4,4,None)
+        self.subframe_frame3 = subframe(self.frame3)
         
-        self.entry_selector_row1 = entry_selector(self.subframe_frame3.subframe,0,None,0,0,"W H","normal",8,3)
-        self.entry_W_row1 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",0,1,4)
-        self.entry_H_row1 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",0,2,4)
+        self.entry_selector_row1 = entry_selector(self.subframe_frame3.subframe,self.enable_widget_1,0,self.geometry_method,0,0,"W H")
+        self.entry_W_row1 = entry(self.subframe_frame3.subframe,0,1)
+        self.entry_H_row1 = entry(self.subframe_frame3.subframe,0,2)
 
-        self.entry_selector_row2 = entry_selector(self.subframe_frame3.subframe,1,None,1,0,"W","normal",8,3)
-        self.entry_W_row2 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",1,1,4)
-        self.entry_H_row2 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",1,2,4)
+        self.entry_selector_row2 = entry_selector(self.subframe_frame3.subframe,self.enable_widget_2,1,self.geometry_method,1,0,"W",)
+        self.entry_W_row2 = entry(self.subframe_frame3.subframe,1,1)
+        self.entry_H_row2 = entry(self.subframe_frame3.subframe,1,2)
 
-        self.entry_selector_row3 = entry_selector(self.subframe_frame3.subframe,2,None,2,0,"H","normal",8,3)
-        self.entry_W_row3 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",2,1,4)
-        self.entry_H_row3 = entry(self.subframe_frame3.subframe,"red","#202020","blue","orange","cyan",2,2,4)
+        self.entry_selector_row3 = entry_selector(self.subframe_frame3.subframe,self.enable_widget_3,2,self.geometry_method,2,0,"H")
+        self.entry_W_row3 = entry(self.subframe_frame3.subframe,2,1)
+        self.entry_H_row3 = entry(self.subframe_frame3.subframe,2,2)
+
+        self.button_start_resize = button(self.subframe_frame3.root, "Start resizing", self.check_resize_values,4, 3, 3)
+        self.button_start_resize.is_clickable(False)
 
         root.config(bd=0)
 
@@ -138,110 +155,90 @@ class App():
         self.logger.log("Welcome to RESIZƎ!")
         self.logger.log("Please select images to resize")
 
-    # ROOT ------------------------
-        
-        #root.resizable(False, False)                ################################# LEVARE COMMENTO IN FUTURO
 
-    # FRAME NUMBER 3 [GEOMETRIES AND RESIZE] ------
-        self.geometry_method=0
-
-        self.geometries_frame = Tkinter.Frame(root,bg="#303030",pady=10)
-        self.geometries_frame.pack(fill="x")
-
-        self.frame_number_3 = Tkinter.Label(self.geometries_frame,text="3",bg='#303030',fg="#404040", font=(selected_font, 30),padx=40)
-        self.frame_number_3.grid(row=0,columnspan=2,column=0,rowspan=6)
-      
-        self.radioframe = Tkinter.Frame(self.geometries_frame,bg="#303030")
-        self.radioframe.grid(row=0,columnspan=4,column=2,rowspan=4)
-
-    # WH
-        self.rb1 = Tkinter.Radiobutton(self.radioframe, text="W H",pady=3,font=(selected_font,9),\
-            width=8,variable=self.geometry_method,value=0,state="disabled",command=self.enable_widget_1,indicatoron=0,bd=0,\
-            background="#404040",activebackground="#F75C4C",selectcolor="#E74C3C")
-        self.rb1.grid(row=0,column=0,pady=2) 
-
-        self.entryWidth_1 = Tkinter.Entry(self.radioframe,width=7,bd=0,bg="#bbb",disabledbackground="#383838",disabledforeground="#505050",fg="#333",insertbackground="orange",state="disabled")
-        self.entryWidth_1.grid(row=0,column=1,padx=2,ipady=4,sticky="e")
-        self.entryHeight_1 = Tkinter.Entry(self.radioframe,width=7,bd=0,bg="#bbb",disabledbackground="#383838",disabledforeground="#505050",fg="#333",insertbackground="orange",state="disabled")
-        self.entryHeight_1.grid(row=0,column=2,padx=2,ipady=4,sticky="w")
-
-    # W
-        self.rb2 = Tkinter.Radiobutton(self.radioframe,text="WIDTH",pady=3,font=(selected_font,9),\
-            width=8,variable=self.geometry_method,value=1,state="disabled",command=self.enable_widget_2,indicatoron=0,bd=0,\
-            background="#404040",activebackground="#F75C4C",selectcolor="#E74C3C")
-        self.rb2.grid(row=1,column=0,pady=2)
-
-        self.entryWidth_2 = Tkinter.Entry(self.radioframe,width=7,bd=0,\
-            bg="#bbb",disabledbackground="#383838",disabledforeground="#505050",fg="#333",\
-            insertbackground="orange",state="disabled")
-        self.entryWidth_2.grid(row=1,column=1,padx=2,ipady=4,sticky="we")
-    
-    # H
-        self.rb3 = Tkinter.Radiobutton(self.radioframe, text="HEIGHT",pady=3,font=(selected_font,9),\
-            width=8,variable=self.geometry_method,value=2,state="disabled",command=self.enable_widget_3,indicatoron=0,bd=0,\
-            background="#404040",activebackground="#F75C4C",selectcolor="#E74C3C")
-        self.rb3.grid(row=2,column=0,pady=2)
-
-        self.entryHeight_3 = Tkinter.Entry(self.radioframe,width=6,bd=0,bg="#bbb",disabledbackground="#383838",disabledforeground="#505050",fg="#333",insertbackground="orange",state="disabled")
-        self.entryHeight_3.grid(row=2,column=1,padx=2,ipady=4,sticky="we")
 
     # [RESIZER] ------
-        self.start_resizing = Tkinter.Button(self.geometries_frame,text="Resize!",command=self.resize,pady=6,state="disabled",width=17,bd=0)
-        self.start_resizing.grid(row=5,column=2,ipadx=5,sticky=Tkinter.W)
+        #self.start_resizing = Tkinter.Button(self.geometries_frame,text="Resize!",command=self.resize,pady=6,state="disabled",width=17,bd=0)
+        #self.start_resizing.grid(row=5,column=2,ipadx=5,sticky=Tkinter.W)
     # END [RESIZER] ------
 
     # [MEGAPIXELS] -----
 
-        self.info_megapixel= Tkinter.Label(self.radioframe,text="",font=(selected_font,8),width=9,anchor="w",bg="#303030",fg="#ddd")
-        self.info_megapixel.grid(row=1,column=2,rowspan=2)
+        #self.info_megapixel= Tkinter.Label(self.radioframe,text="",font=(selected_font,8),width=9,anchor="w",bg="#303030",fg="#ddd")
+        #self.info_megapixel.grid(row=1,column=2,rowspan=2)
 
     # END [MEGAPIXELS] -----
 
-    # END FRAME NUMBER 3 [GEOMETRIES AND RESIZE] ------ 
-
-
+    # Output geometry rows enablers
 
     def enable_widget_1(self):
         self.logger.log("Enter output Width and Height")
-        self.entryWidth_1.config(state="normal")
-        self.entryHeight_1.config(state="normal")
-        self.entryWidth_2.config(state="disable")
-        self.entryHeight_3.config(state="disable")
-        self.geometry_method=0
+        self.geometry_method = 0
+        self.entry_W_row1.set_state("normal")
+        self.entry_H_row1.set_state("normal")
+        self.entry_W_row2.set_state("disabled")
+        self.entry_H_row3.set_state("disabled")
 
     def enable_widget_2(self):
         self.logger.log("Enter output Width")
-        self.rb1.config(state="normal")
-        self.entryWidth_1.config(state="disable")
-        self.entryHeight_1.config(state="disable")
-        self.entryWidth_2.config(state="normal")
-        self.entryHeight_3.config(state="disable")
-        self.geometry_method=1
+        self.geometry_method = 1
+        self.entry_selector_row1.set_state("normal")
+        self.entry_W_row1.set_state("disabled")
+        self.entry_H_row1.set_state("disabled")
+        self.entry_W_row2.set_state("normal")
+        self.entry_H_row3.set_state("disabled")
 
     def enable_widget_3(self):
         self.logger.log("Enter output Height")
-        self.rb1.config(state="normal")
-        self.entryWidth_1.config(state="disable")
-        self.entryHeight_1.config(state="disable")
-        self.entryWidth_2.config(state="disable")
-        self.entryHeight_3.config(state="normal")
-        self.geometry_method=2
+        self.geometry_method = 2
+        self.entry_selector_row1.set_state("normal")
+        self.entry_W_row1.set_state("disabled")
+        self.entry_H_row1.set_state("disabled")
+        self.entry_W_row2.set_state("disabled")
+        self.entry_H_row3.set_state("normal")
 
-    def frame2_excited(self):
+    def frame3_enable(self):
+        self.entry_selector_row1.set_state("active")
+        self.entry_selector_row2.set_state("normal")
+        self.entry_selector_row3.set_state("normal")
+        self.button_start_resize.is_clickable(True)
+        self.enable_widget_1()
+
+    def frame3_disable(self):
+        print "Disable Frame 3"
+        self.entry_selector_row1.set_state("disabled")
+        self.entry_selector_row2.set_state("disabled")
+        self.entry_selector_row3.set_state("disabled")
+        self.entry_W_row1.set_state("disabled")
+        self.entry_H_row1.set_state("disabled")
+        self.entry_W_row2.set_state("disabled")
+        self.entry_H_row3.set_state("disabled")
+        self.button_start_resize.is_clickable(False)
+
+    def frame2_excited(self,output_folder):
         self.button_select_images.set_inner_text("Reset workflow")
         self.button_select_folder.set_inner_text("Reset folder")
+        if len(output_folder)>19:
+            self.text2.set_text(output_folder[:20] + "...")
+        else:
+            self.text2.set_text(output_folder[:20])
         self.button_select_folder.excited()
         self.frame2.excited()
         self.number2.excited()
         self.text2.excited()
+        # Enabling Frame 3
+        self.frame3_enable()
 
     def frame2_unexcited(self):
         self.button_select_folder.set_inner_text("Select output folder")
+        self.text2.set_text("Select an output folder")
         self.output_folder = None
         self.button_select_folder.unexcited()
         self.frame2.unexcited()
         self.number2.unexcited()
         self.text2.unexcited()
+        # Disabling Frame 3
+        self.frame3_disable()
 
     def frame1_excited(self,number_of_images_in_list):
         self.button_select_images.set_inner_text("Reset image list")
@@ -262,11 +259,12 @@ class App():
         self.text1.set_text("Select some images")
         self.button_select_folder.is_clickable(False)
         self.frame2_unexcited()
+        self.frame3_disable()
 
     def select_images(self):
-        if self.image_list == False:
+        if not self.image_list:
             self.image_list = image_list()
-            if self.image_list.listIsEmpty == True:
+            if self.image_list.listIsEmpty:
                 self.image_list = False
             elif self.image_list.listIsEmpty == False:
                 self.frame1_excited(len(self.image_list.namelist))
@@ -274,15 +272,45 @@ class App():
             self.frame1_unexcited()
 
     def select_folder(self):
-        # Se l'output folder non è ancora settata prova a settarla
+        # If output folder is not already setted try to set it
         if self.output_folder == None:
-            # Chiamo il metodo per popolare la variabile
+            # Call method to populate variable "self.output_folder"
             self.image_list.set_destination_folder()
             self.output_folder = self.image_list.destination_folder
-            self.frame2_excited()
-        # Altrimenti lasciala non settata
-        else:            
+            # If a non-zero-folder is set
+            if len(self.output_folder) > 0:
+                # Excite Frame 2 and go to Frame 3
+                self.frame2_excited(self.output_folder)
+            # Otherwise, if a zero-folder is set
+            else:
+                # Leave "self.output_folder" empty
+                self.output_folder = None
+        # Leave "self.output_folder" empty otherwise
+        else:
             self.frame2_unexcited()
+
+    def calculate_width_or_height(self,worh,dimension):
+        if dimension == "w":
+            return int(worh*2)
+        elif dimension == "h":
+            return int(worh/2)
+
+    def check_resize_values(self):
+        # If the resizing method is set to "WH"
+        if self.geometry_method == 0:
+            self.output_width = self.entry_W_row1.entry.get()
+            self.output_height = self.entry_H_row1.entry.get()
+        elif self.geometry_method == 1:
+            self.output_width = self.entry_W_row2.entry.get()
+            self.output_height = self.calculate_width_or_height(int(self.output_width),"h")
+        elif self.geometry_method == 2:
+            self.output_height = self.entry_H_row3.entry.get()
+            self.output_width = self.calculate_width_or_height(int(self.output_height),"w")
+        print self.output_width, self.output_height
+
+    #def read_resize_values(self):
+    
+    ## OLD DEF BELOW
 
     def ready_to_choose_folder_switcher(self,list):
         if len(list) > 0:
