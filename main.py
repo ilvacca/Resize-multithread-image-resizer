@@ -133,52 +133,14 @@ class App():
     # MENU ------------------------
         self.menu = menu(root)
 
+    # LOG
+        self.logger = TraceConsole(root)
+        self.logger.log("Welcome to RESIZƎ!")
+        self.logger.log("Please select images to resize")
+
     # ROOT ------------------------
         
         #root.resizable(False, False)                ################################# LEVARE COMMENTO IN FUTURO
-
-    # FRAME NUMBER 1 [FRAME SELECTOR] ------
-        self.frame1_background = "#151515"
-        self.frame1_foreground = "#ccc"
-        self.frame1_number_foreground = "#252525"
-
-        self.excited_frame1_foreground = "#4DAF7C"
-        self.excited_frame1_background = "#1E824C"
-
-        self.frame_select_images = Tkinter.Frame(root,bg=self.frame1_background,pady=10)
-        self.frame_select_images.pack(fill="x")
-
-        self.frame_number_1 = Tkinter.Label(self.frame_select_images,text="1",bg=self.frame1_background,fg=self.frame1_number_foreground, font=(selected_font, 30),padx=40)
-        self.frame_number_1.grid(row=0,column=0,rowspan=2)
-
-        self.select_images = Tkinter.Button(self.frame_select_images,text="Select Images",command=self.select_images,pady=6,width=18,bd=0)
-        self.select_images.grid(row=0,column=1)
-
-        self.images_found_text = Tkinter.Label(self.frame_select_images,text="Select some images first",bg=self.frame1_background,fg=self.frame1_foreground)
-        self.images_found_text.grid(row=1,column=1)
-    # END FRAME NUMBER 1 [FRAME SELECTOR] ------
-
-    # FRAME NUMBER 2 [FOLDER SELECTOR] ------
-        self.frame2_background = "#222222"
-        self.frame2_foreground = "#ccc"
-        self.frame2_number_foreground = "#323232"
-
-        self.excited_frame2_background = "#019875"
-        self.excited_frame2_foreground = "#66CC99"
-
-        self.frame_folder_selector = Tkinter.Frame(root,bg=self.frame2_background,pady=10)
-        self.frame_folder_selector.pack(fill="x")
-
-        self.frame_number_2 = Tkinter.Label(self.frame_folder_selector,text="2",bg=self.frame2_background,fg=self.frame2_number_foreground, font=(selected_font, 30),padx=40)
-        self.frame_number_2.grid(row=0,column=0,rowspan=2)
-
-        self.select_output_directory = Tkinter.Button(self.frame_folder_selector,text="Select output folder",\
-            command=self.select_output_directory,state="disabled",pady=6,width=18,bd=0)
-        self.select_output_directory.grid(row=0,column=1,sticky=Tkinter.W)
-
-        self.output_folder_text = Tkinter.Label(self.frame_folder_selector,text="Select an output folder",bg=self.frame2_background,fg=self.frame2_foreground)
-        self.output_folder_text.grid(row=1,column=1,sticky=Tkinter.W)
-    # END FRAME NUMBER 2 [FOLDER SELECTOR] ------
 
     # FRAME NUMBER 3 [GEOMETRIES AND RESIZE] ------
         self.geometry_method=0
@@ -198,13 +160,9 @@ class App():
             background="#404040",activebackground="#F75C4C",selectcolor="#E74C3C")
         self.rb1.grid(row=0,column=0,pady=2) 
 
-        self.entryWidth_1 = Tkinter.Entry(self.radioframe,width=7,bd=0,\
-            bg="#bbb",disabledbackground="#383838",disabledforeground="#505050",fg="#333",\
-            insertbackground="orange",state="disabled")
+        self.entryWidth_1 = Tkinter.Entry(self.radioframe,width=7,bd=0,bg="#bbb",disabledbackground="#383838",disabledforeground="#505050",fg="#333",insertbackground="orange",state="disabled")
         self.entryWidth_1.grid(row=0,column=1,padx=2,ipady=4,sticky="e")
-        self.entryHeight_1 = Tkinter.Entry(self.radioframe,width=7,bd=0,\
-            bg="#bbb",disabledbackground="#383838",disabledforeground="#505050",fg="#333",\
-            insertbackground="orange",state="disabled")
+        self.entryHeight_1 = Tkinter.Entry(self.radioframe,width=7,bd=0,bg="#bbb",disabledbackground="#383838",disabledforeground="#505050",fg="#333",insertbackground="orange",state="disabled")
         self.entryHeight_1.grid(row=0,column=2,padx=2,ipady=4,sticky="w")
 
     # W
@@ -224,14 +182,11 @@ class App():
             background="#404040",activebackground="#F75C4C",selectcolor="#E74C3C")
         self.rb3.grid(row=2,column=0,pady=2)
 
-        self.entryHeight_3 = Tkinter.Entry(self.radioframe,width=6,bd=0,\
-            bg="#bbb",disabledbackground="#383838",disabledforeground="#505050",fg="#333",\
-            insertbackground="orange",state="disabled")
+        self.entryHeight_3 = Tkinter.Entry(self.radioframe,width=6,bd=0,bg="#bbb",disabledbackground="#383838",disabledforeground="#505050",fg="#333",insertbackground="orange",state="disabled")
         self.entryHeight_3.grid(row=2,column=1,padx=2,ipady=4,sticky="we")
 
     # [RESIZER] ------
-        self.start_resizing = Tkinter.Button(self.geometries_frame,text="Resize!",\
-            command=self.resize,pady=6,state="disabled",width=17,bd=0)
+        self.start_resizing = Tkinter.Button(self.geometries_frame,text="Resize!",command=self.resize,pady=6,state="disabled",width=17,bd=0)
         self.start_resizing.grid(row=5,column=2,ipadx=5,sticky=Tkinter.W)
     # END [RESIZER] ------
 
@@ -244,12 +199,7 @@ class App():
 
     # END FRAME NUMBER 3 [GEOMETRIES AND RESIZE] ------ 
 
-    # LOG 
-        self.logger=TraceConsole(root)
-        self.logger.log("Welcome to RESIZƎ!")
-        self.logger.log("Please select images to resize")
 
-    # END LOG
 
     def enable_widget_1(self):
         self.logger.log("Enter output Width and Height")
@@ -324,7 +274,6 @@ class App():
             self.frame1_unexcited()
 
     def select_folder(self):
-        
         # Se l'output folder non è ancora settata prova a settarla
         if self.output_folder == None:
             # Chiamo il metodo per popolare la variabile
