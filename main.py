@@ -1,7 +1,6 @@
 # coding=utf-8
 
 from resizeimage import resizeimage
-import datetime
 import os
 from PIL import Image
 import Tkinter
@@ -107,7 +106,7 @@ class App:
         self.hasOutputFolder = False
         self.image_list = False
         self.output_folder = None
-        self.version = "0.55."+datetime.datetime.now().strftime("%y%m.%d.%H%M")
+        self.version = "0.55.03.8"
 
         self.geometry_method = Tkinter.StringVar()
 
