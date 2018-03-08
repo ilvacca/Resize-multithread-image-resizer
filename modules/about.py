@@ -23,10 +23,15 @@ class about_panel:
         self.header_text_a_pady=4
         self.version_text_pady = 0
 
+        self.about_panel_width = 300
+        self.about_panel_height = 350
+        self.centerX = int(((self.parent.winfo_screenwidth()/2)-(self.about_panel_width/2))*0.9)
+        self.centerY = int(((self.parent.winfo_screenheight()/2)-(self.about_panel_height/2))*0.9)
+
         # Packing panel
         self.about_panel = Tkinter.Toplevel(self.parent)
         self.about_panel.title("RESIZE - About")
-        self.about_panel.geometry("300x350")
+        self.about_panel.geometry("%sx%s+%s+%s"%(self.about_panel_width,self.about_panel_height,self.centerX,self.centerY))
         self.about_panel.configure(background=self.bg)
         self.about_panel.iconbitmap("images/Iconv1.ico")
         self.about_panel.resizable(False,False)

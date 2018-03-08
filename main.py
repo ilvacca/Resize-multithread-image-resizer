@@ -1,6 +1,7 @@
 # coding=utf-8
 
 from resizeimage import resizeimage
+import datetime
 import os
 from PIL import Image
 import Tkinter
@@ -9,7 +10,6 @@ import sys
 sys.path.insert(0, "modules")
 
 from header import header
-#from menu import menu
 from frames import frame, frame_number, frame_text, frame_menu
 from options import option_panel
 from about import about_panel
@@ -92,7 +92,11 @@ class App:
 
         # Tkinter properties
         root.title("RESIZE")
-        root.geometry("300x518")
+        self.root_width = 300
+        self.root_height = 518
+        self.centerX=((root.winfo_screenwidth()/2)-self.root_width/2)
+        self.centerY =((root.winfo_screenheight()/2)-self.root_height/2)
+        root.geometry("%sx%s+%s+%s"%(self.root_width,self.root_height,self.centerX,self.centerY))
         root.configure(background='#252525')
         root.iconbitmap("images/Iconv1.ico")
         root.resizable(False, False)                ################################# LEVARE COMMENTO IN FUTURO
@@ -103,7 +107,7 @@ class App:
         self.hasOutputFolder = False
         self.image_list = False
         self.output_folder = None
-        self.version = 0.5
+        self.version = "0.55."+datetime.datetime.now().strftime("%y%m.%d.%H%M")
 
         self.geometry_method = Tkinter.StringVar()
 
