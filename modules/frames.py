@@ -5,21 +5,21 @@ selected_font = "Helvetica"
 
 class frame:
 
-    def __init__(self,parent,bg,exc_bg,exc_fg,exc_fg_num,fg_num):
+    def __init__(self,parent,bg,exc_bg,exc_fg,exc_fg_num,fg_num,height):
 
         # Structural properties
         self.root = parent
 
         # Color properties
         self.bg = bg                    # Background
-        self.fg = "#AAA"                # Foreground (Testo)
+        self.fg = "#888"                # Foreground (Testo)
         self.fg_num = fg_num            # Foreground (Numero)
         self.exc_bg = exc_bg            # Excited Background
         self.exc_fg = exc_fg            # Excited Forgroun (Testo)
         self.exc_fg_num = exc_fg_num    # Excited Foreground (Numero)
 
         # Geometric properties
-        self.height = None              # Altezza
+        self.height = height              # Altezza
         self.pady = 10
 
         # Instancer
@@ -54,7 +54,7 @@ class frame_number:
         self.rowspan = 5
 
         # Instancer
-        self.number = Tkinter.Label(self.frame.frame,text=number,bg=self.bg,fg=self.fg,font=(selected_font,self.font_size),padx=self.padx)
+        self.number = Tkinter.Label(self.frame.frame,text=number,bg=self.bg,fg=self.fg,font=(selected_font,self.font_size,"bold"),padx=self.padx)
         self.number.grid(row=self.row,column=self.column,rowspan=self.rowspan,sticky=self.sticky)
 
     def excited(self):
@@ -63,6 +63,9 @@ class frame_number:
     def unexcited(self):
         self.number.config(bg=self.bg,fg=self.fg)
 
+    def set_text(self,text):
+        self.number.config(text=text)
+
 class frame_text:
 
     def __init__(self,parent,text):
@@ -70,13 +73,17 @@ class frame_text:
         # Structural properties
         self.frame = parent
 
+        # Colo properties
+        self.fg = "#888"
+
         # Geometric properties
         self.row = 1
         self.column = 1
+        self.font = ("verdana",7)
 
         # Instancer
-        self.text = Tkinter.Label(self.frame.frame,text=text,bg=self.frame.bg,fg=self.frame.fg)
-        self.text.grid(row=self.row,column=self.column)
+        self.text = Tkinter.Label(self.frame.frame,text=text,bg=self.frame.bg,fg=self.fg,font=self.font)
+        self.text.grid(row=self.row,column=self.column,pady=2,sticky="s")
 
     def set_text(self,text):
         self.text.config(text=text)

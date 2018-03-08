@@ -17,8 +17,6 @@ from subframe import subframe
 from entry import entry, entry_selector
 from supports import actual_time
 
-selected_font = "Helvetica"
-
 class image_list:
 
     def __init__(self):
@@ -86,16 +84,19 @@ class App:
         Keywords Argument:
             root = Tkinter object in which the App will be packed() = Tk.Tkinter()
 
+        :type root: Tkinter object
         :param root:
 
         """
 
         # Tkinter properties
         root.title("RESIZE")
-        root.geometry("300x520")
+        root.geometry("300x518")
         root.configure(background='#252525')
         root.iconbitmap("images/Iconv1.ico")
-        #root.resizable(False, False)                ################################# LEVARE COMMENTO IN FUTURO
+        root.resizable(False, False)                ################################# LEVARE COMMENTO IN FUTURO
+
+        self.font = ("Arial",8)
 
         self.hasImageList = False
         self.hasOutputFolder = False
@@ -109,27 +110,27 @@ class App:
         self.output_width, self.output_height = None, None
         self.check_for_changes = True
 
+        self.menu = frame(root, "#151515", None, None, None, None, 20)
+
     # HEADER ----------------------
         self.header = header(root,"images/Header1.png")
 
     # FRAME -----------------------
-        self.frame1 = frame(root,"#151515","#1E824C","#6EDFA4","#4DAF7C","#252525")
+        self.frame1 = frame(root,"#151515","#1E824C","#6EDFA4","#4DAF7C","#282828",None)
         self.number1 = frame_number(self.frame1,"1")
 
-        self.frame2 = frame(root,"#202020","#319B5C","#75EDAF","#58B283","#303030")
+        self.frame2 = frame(root,"#202020","#319B5C","#75EDAF","#58B283","#333333",None)
         self.number2 = frame_number(self.frame2,"2")
 
-        self.frame3 = frame(root,"#242424","#42AD6E","#6EDFA4","#6EB892","#343434")
+        self.frame3 = frame(root,"#242424","#42AD6E","#6EDFA4","#6EB892","#373737",None)
         self.number3 = frame_number(self.frame3,"3")
 
-        self.button_select_images = button(self.frame1,"Select images",self.select_images,0,1,None)
-        self.button_select_folder = button(self.frame2,"Select output folder",self.select_folder,0,1,None)
+        self.button_select_images = button(self.frame1,"SELECT IMAGES",self.select_images,0,1,None)
+        self.button_select_folder = button(self.frame2,"SELECT OUTPUT",self.select_folder,0,1,None)
         self.button_select_folder.is_clickable(False)
 
-        # SET INNER TEXT EXAMPLE: self.button_select_images.set_inner_text("Click to Reset")
-
-        self.text1 = frame_text(self.frame1,"Select some images")
-        self.text2 = frame_text(self.frame2,"Select an output folder")
+        self.text1 = frame_text(self.frame1,"Waiting for images...")
+        self.text2 = frame_text(self.frame2,"Waiting for a folder...")
 
         self.subframe_frame3 = subframe(self.frame3)
         
@@ -145,25 +146,23 @@ class App:
         self.entry_W_row3 = entry(self.subframe_frame3.subframe,2,1)
         self.entry_H_row3 = entry(self.subframe_frame3.subframe,2,2)
 
-        self.button_start_resize = button(self.subframe_frame3.root, "Start resizing", self.check_resize_values,4, 3, 3)
+        self.button_start_resize = button(self.subframe_frame3.root, "START RESIZING", self.check_resize_values,4, 3, 3)
         self.button_start_resize.is_clickable(False)
 
         root.config(bd=0)
 
     # MENU ------------------------
-        self.menu = menu(root)
+        #self.menu = menu(root)
+
 
     # LOG
         self.logger = TraceConsole(root)
         self.logger.log("Welcome to RESIZƎ!")
         self.logger.log("Please select images to resize")
 
+    # FOOTER FRAME ----------------
 
-
-    # [RESIZER] ------
-        #self.start_resizing = Tkinter.Button(self.geometries_frame,text="Resize!",command=self.resize,pady=6,state="disabled",width=17,bd=0)
-        #self.start_resizing.grid(row=5,column=2,ipadx=5,sticky=Tkinter.W)
-    # END [RESIZER] ------
+        self.footer = frame(root,"#D54A4E",None,None,None,None,5)
 
     # [MEGAPIXELS] -----
 
@@ -231,8 +230,8 @@ class App:
         self.button_start_resize.is_clickable(False)
 
     def frame2_excited(self,output_folder):
-        self.button_select_images.set_inner_text("Reset workflow")
-        self.button_select_folder.set_inner_text("Reset folder")
+        self.button_select_images.set_inner_text("RESET WORKFLOW")
+        self.button_select_folder.set_inner_text("RESET FOLDER")
         if len(output_folder)>19:
             self.text2.set_text(output_folder[:20] + "...")
         else:
@@ -245,7 +244,7 @@ class App:
         self.frame3_enable()
 
     def frame2_unexcited(self):
-        self.button_select_folder.set_inner_text("Select output folder")
+        self.button_select_folder.set_inner_text("SELECT FOLDER")
         self.text2.set_text("Select an output folder")
         self.output_folder = None
         self.button_select_folder.unexcited()
@@ -256,7 +255,7 @@ class App:
         self.frame3_disable()
 
     def frame1_excited(self,number_of_images_in_list):
-        self.button_select_images.set_inner_text("Reset image list")
+        self.button_select_images.set_inner_text("RESET IMAGE LIST")
         self.button_select_images.excited()
         self.frame1.excited()
         self.number1.excited()
@@ -266,7 +265,7 @@ class App:
 
     def frame1_unexcited(self):        
         self.image_list = False
-        self.button_select_images.set_inner_text("Select images")
+        self.button_select_images.set_inner_text("SELECT IMAGES")
         self.button_select_images.unexcited()
         self.frame1.unexcited()
         self.number1.unexcited()
@@ -330,7 +329,7 @@ class App:
             self.equals_dimensions = False
 
         if self.ready_to_resize and self.equals_dimensions:
-            self.button_start_resize.set_inner_text("Start resizing")
+            self.button_start_resize.set_inner_text("START RESIZING")
             self.logger.log("Resizing [%sx%s]"%(self.output_width,self.output_height))
             self.ready_to_resize = False
             self.equals_dimensions = False
@@ -341,15 +340,15 @@ class App:
         elif (type(self.output_height)==int) and (type(self.output_width)==int):
             if (self.output_width > 0 ) and (self.output_height > 0):
                 if (self.output_width == self.oldW) and (self.output_height ==  self.oldH):
-                    self.button_start_resize.set_inner_text("Reclick to resize")
+                    self.button_start_resize.set_inner_text("RECLICK TO RESIZE")
                     self.logger.log("Reclick to resize to %sx%s!"%(self.output_width,self.output_height))
                     self.ready_to_resize = True
                 elif (self.oldW == None) and (self.oldH == None):
-                    self.button_start_resize.set_inner_text("Reclick to resize")
+                    self.button_start_resize.set_inner_text("RECLICK TO RESIZE")
                     self.logger.log("Reclick to resize to %sx%s!" % (self.output_width, self.output_height))
                     self.ready_to_resize = True
                 else:
-                    self.button_start_resize.set_inner_text("Reclick to confirm")
+                    self.button_start_resize.set_inner_text("RECLICK TO CONFIRM")
                     self.logger.log("Are you ready? Reclick to confirm")
                     self.ready_to_resize = False
 
@@ -363,74 +362,7 @@ class App:
             print "Numeri non validi"
             self.ready_to_resize = False
 
-    #def read_resize_values(self):
-    
     ## OLD DEF BELOW
-
-    def ready_to_choose_folder_switcher(self,list):
-        if len(list) > 0:
-            self.logger.log("Found %d images. Select an output folder"%(len(list)))
-            self.select_images.config(text="Change Images")
-            self.images_found_text.config(text=("%s images selected"%(len(self.image_list.list))))
-            self.frame_number_1.config(fg=self.excited_frame1_foreground,bg=self.excited_frame1_background)
-            self.frame_select_images.config(bg=self.excited_frame1_background)
-            self.images_found_text.config(fg=self.excited_frame1_foreground,bg=self.excited_frame1_background)
-            
-            self.select_output_directory.config(state="normal")
-        else:
-            self.image_list=[]
-            self.logger.log("Image list cleared")
-            self.logger.log("Please select images to resize")
-            self.select_images.config(text="Select Images")
-            self.select_output_directory.config(bg="white",state="disabled")
-            self.start_resizing.config(state="disabled")
-
-            self.frame_number_1.config(fg="#252525",bg=self.frame1_background)
-            self.frame_select_images.config(bg=self.frame1_background)
-            self.images_found_text.config(text=("Select some images first"),fg=self.frame1_foreground,bg=self.frame1_background)
-
-            self.frame_number_2.config(bg=self.frame2_background,fg=self.frame2_number_foreground)
-            self.frame_folder_selector.config(bg=self.frame2_background)
-            self.output_folder_text.config(text="Select an output folder",bg=self.frame2_background,fg=self.frame2_foreground)
-
-    def resize(self):
-
-        if self.geometry_method == 0:
-            W = int(self.entryWidth_1.get())
-            H = int(self.entryHeight_1.get())
-        elif self.geometry_method == 1:
-            W = int(self.entryWidth_2.get())
-            H = int(W/2)                                                                             #CORREGGERE
-        elif self.geometry_method == 2:
-            H = int(self.entryHeight_3.get())
-            W = int(H*2)                                                                             #CORREGGERE    
-        else:
-            print "%s - Errors in W, H"%(actual_time())
-
-        if (self.oldW == 0 and self.oldH == 0):
-            #print "%s - First cycle, ok. Are you ready?"%(actual_time())
-            if (W>0 and H>0):
-                self.ready_to_resize = True
-                self.info_megapixel.config(text="%s\n%s\n%s Mpx"%(W,H,round(W*H*1.0/1000000,1)))
-                self.logger.log("Ok, are you ready? ReClick to start resizing!")    
-        elif (self.oldW != W or self.oldH != H) or (W==0 or H==0):
-            self.ready_to_resize = False 
-            self.info_megapixel.config(text="%s\n%s\n%s Mpx"%(W,H,round(W*H*1.0/1000000,1)))
-            #print "%s - Something changed, you're not ready anymore"%(actual_time())
-            self.logger.log("Something changed, you're not ready anymore")
-            self.start_resizing.config(text="3. Resize!")
-        elif self.ready_to_resize == True:
-            #print "Resizing!", self.geometry_method, W, H
-            self.logger.log("Resizing to %dx%s"%(W, H))
-            self.batch_resizer(W,H)
-        elif (W > 0 and H > 0):
-            self.ready_to_resize = True
-            self.info_megapixel.config(text="%s\n%s\n%s Mpx"%(W,H,round(W*H*1.0/1000000,1)))
-            self.start_resizing.config(text="ReClick to confirm!")
-            self.logger.log("ReClick to confirm and start resizing!")
-        
-        self.oldW = W
-        self.oldH = H
 
     def batch_resizer(self,W,H):
         self.logger.log("Resizing (%s/%s) %s"%(0+1,len(self.image_list.namelist),self.image_list.namelist[0]))
@@ -440,43 +372,6 @@ class App:
         self.image_list.set_destination_folder()
         df = self.image_list.destination_folder
         self.ready_to_set_resizer_switcher(df)
-        
-    def ready_to_set_resizer_switcher(self,folder):
-        if type(folder) != str:
-            if len(folder) > 20:
-                points = "..."
-            else:
-                points = ""
-            self.logger.log("Folder '%s' selected"%(points+self.image_list.destination_folder[-20:]))
-            self.output_folder_text.config(text=folder[:28]+"...")    
-            self.select_output_directory.config(text="Change folder",bg="#")
-            self.select_images.config(text="Reset workflow")
-
-            self.start_resizing.config(state="normal")
-            self.frame_folder_selector.config(bg=self.excited_frame2_background)
-            self.frame_number_2.config(bg=self.excited_frame2_background,fg=self.excited_frame2_foreground)
-            self.output_folder_text.config(bg=self.excited_frame2_background,fg=self.excited_frame2_foreground)
-            self.rb1.config(state="active")
-            self.entryHeight_1.config(state="normal")
-            self.entryWidth_1.config(state="normal")
-            self.rb2.config(state="normal")
-            self.rb3.config(state="normal")
-        else:
-            self.logger.log("Select an output folder")
-            self.output_folder_text.config(text="Select an output folder")
-            self.select_output_directory.config(text="Select output folder",bg="white")
-
-            self.start_resizing.config(state="disabled")
-            self.frame_folder_selector.config(bg=self.frame2_background)
-            self.frame_number_2.config(bg=self.frame2_background,fg="#323232")
-            self.output_folder_text.config(bg=self.frame2_background,fg="#ddd")
-            self.rb1.config(state="disabled")
-            self.rb2.config(state="disabled")
-            self.rb3.config(state="disabled")
-            self.entryHeight_1.config(state="disabled")
-            self.entryWidth_1.config(state="disabled")
-            self.entryWidth_2.config(state="disabled")
-            self.entryHeight_3.config(state="disabled")
 
 root = Tkinter.Tk()
 app = App(root)

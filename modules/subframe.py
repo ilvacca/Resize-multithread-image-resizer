@@ -1,6 +1,3 @@
-#self.radioframe = Tkinter.Frame(self.geometries_frame,bg="#303030")
-#        self.radioframe.grid(row=0,columnspan=4,column=2,rowspan=4)
-
 import Tkinter
 
 class subframe:

@@ -11,10 +11,14 @@ class button:
         self.command = command
 
         # Color properties
-        self.bg = "#DDD"
-        self.fg = "#151515"
+        self.bg = "#b53438"     # "#464f70" "#303A61" "#434e6b"
+        self.fg = "#FFD0BF"        # "#222"
         self.exc_bg = "#166139"
         self.exc_fg = "#C3FFC3"
+        self.act_bg = "#333"            # Clicking background
+        self.dis_bg = "purple"
+        self.dis_fg = "#6F2022"
+        self.font = ("Arial",8,"bold")
 
         # Geometric properties
         self.row = row
@@ -25,7 +29,7 @@ class button:
         self.columnspan = columnspan
 
         # Instancer
-        self.button = Tkinter.Button(self.frame.frame,bg=self.bg,text=self.inside_text,command=self.command,pady=self.pady,width=self.width,bd=self.bd)
+        self.button = Tkinter.Button(self.frame.frame,disabledforeground=self.dis_fg,activebackground=self.act_bg,fg=self.fg,bg=self.bg,text=self.inside_text,command=self.command,pady=self.pady,width=self.width,bd=self.bd,font=self.font)
         self.button.grid(row=self.row,column=self.column,columnspan=self.columnspan)
 
     def is_clickable(self,b):

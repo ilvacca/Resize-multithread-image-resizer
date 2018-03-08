@@ -1,12 +1,7 @@
 import Tkinter
 
 class entry_selector:
-    
-    #self.rb1 = Tkinter.Radiobutton(self.radioframe, text="W H",pady=3,font=(selected_font,9),\
-    #        width=8,variable=self.geometry_method,value=0,state="disabled",command=self.enable_widget_1,indicatoron=0,bd=0,\
-    #        background="#404040",activebackground="#F75C4C",selectcolor="#E74C3C")
-    #self.rb1.grid(row=0,column=0,pady=2) 
-    
+
     def __init__(self,root,command,value,variable,row,column,inner_text):
 
         # Structural properties
@@ -18,12 +13,13 @@ class entry_selector:
         self.command = command
 
         # Color properties
+        self.font = ("Arial", 8, "bold")
         self.background = "#404040"
         self.act_background = "#F75C4C"
         self.select_color = "#E74C3C"
+        self.fg = "#CCC"
 
         # Geometric properties
-        self.font_size = 8
         self.width = 5
         self.pady = 3
         self.value = value
@@ -33,7 +29,7 @@ class entry_selector:
 
         self.entry_selector = Tkinter.Radiobutton(self.root,text=self.inner_text,pady=self.pady,value=self.value,variable=self.variable,state=self.initial_state,indicatoron=self.indicatoron,\
             command=self.command,background=self.background,activebackground=self.act_background,selectcolor=self.select_color,\
-            bd=self.bd,width=self.width)
+            bd=self.bd,width=self.width,font=self.font,fg=self.fg)
         self.entry_selector.grid(row=self.row,column=self.column,pady=1,sticky="we")
 
     def set_command(self,command):
@@ -54,11 +50,6 @@ class entry_selector:
             self.entry_selector.config(state="normal")
 
 class entry:
-    
-    #self.entryWidth_1 = Tkinter.Entry(self.radioframe,width=7,bd=0,\
-    #            bg="#bbb",disabledbackground="#383838",disabledforeground="#505050",fg="#333",\
-    #            insertbackground="orange",state="disabled")
-    #self.entryWidth_1.grid(row=0,column=1,padx=2,ipady=4,sticky="e")
 
     def __init__(self,root,row,column):
 
@@ -101,6 +92,3 @@ class entry:
             self.entry.config(state="normal")
         elif b == False:
             self.entry.config(state="disabled")
-
-    def set_inner_text(self,text):
-        None
