@@ -1,5 +1,4 @@
 import Tkinter
-from supports import actual_time
 
 class button:
 
@@ -49,3 +48,29 @@ class button:
 
     def set_command(self,command):
         self.button.config(command=command)
+
+class menu_button:
+
+    def __init__(self,parent,command,text):
+
+        # Structural properties
+        self.parent = parent
+        self.text = text
+        self.font = ("Arial",7,"normal")
+        self.command = command
+
+        # Color properties
+        self.bg = "#202020"
+        self.fg = "#555"
+        self.act_bg = "#B53438"
+        self.act_fg = "#DDD"
+
+        # Geometric properties
+        self.int_padx = 5
+        self.int_pady = 0
+        self.ext_padx = 3
+        self.ext_pady = 3
+        self.bd = 0
+
+        self.menu_button = Tkinter.Button(self.parent,command=self.command,activeforeground=self.act_fg,activebackground=self.act_bg,text=self.text,bg=self.bg,bd=self.bd,fg=self.fg,padx=self.int_padx,pady=self.int_pady,font=self.font)
+        self.menu_button.pack(padx=self.ext_padx,pady=self.ext_pady,side="left")

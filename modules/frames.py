@@ -93,3 +93,21 @@ class frame_text:
 
     def unexcited(self):
         self.text.config(bg=self.frame.bg,fg=self.frame.fg)
+
+class frame_menu:
+
+    def __init__(self,parent,bg,height):
+
+        # Structural properties
+        self.root = parent
+
+        # Color properties
+        self.bg = bg                    # Background
+
+        # Geometric properties
+        self.height = height              # Altezza
+        self.pady = 0
+
+        # Instancer
+        self.frame = Tkinter.Frame(self.root,height=self.height,bg=self.bg,pady=self.pady)
+        self.frame.pack(fill="x")

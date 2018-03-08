@@ -9,13 +9,13 @@ import sys
 sys.path.insert(0, "modules")
 
 from header import header
-from menu import menu
-from frames import frame, frame_number, frame_text
+#from menu import menu
+from frames import frame, frame_number, frame_text, frame_menu
+from options import option_panel
 from logconsole import TraceConsole
-from button import button
+from button import button, menu_button
 from subframe import subframe
 from entry import entry, entry_selector
-from supports import actual_time
 
 class image_list:
 
@@ -110,7 +110,10 @@ class App:
         self.output_width, self.output_height = None, None
         self.check_for_changes = True
 
-        self.menu = frame(root, "#151515", None, None, None, None, 20)
+        self.menu = frame_menu(root, "#151515", 15)
+        self.menu_button_options = menu_button(self.menu.frame,self.open_option_panel,"OPTIONS")
+        self.menu_button_help = menu_button(self.menu.frame,None,"HELP")
+        self.menu_button_about = menu_button(self.menu.frame,None, "ABOUT")
 
     # HEADER ----------------------
         self.header = header(root,"images/Header1.png")
@@ -154,7 +157,6 @@ class App:
     # MENU ------------------------
         #self.menu = menu(root)
 
-
     # LOG
         self.logger = TraceConsole(root)
         self.logger.log("Welcome to RESIZƎ!")
@@ -172,6 +174,11 @@ class App:
     # END [MEGAPIXELS] -----
 
     # Output geometry rows enablers
+
+    def open_option_panel(self):
+        self.option = option_panel(root)
+        self.option.opt_panel.grab_set()
+        self.option.opt_panel.after(50, lambda: self.option.opt_panel.focus_force())
 
     def empty_entries(self):
         self.entry_W_row1.entry.delete(0,Tkinter.END)
