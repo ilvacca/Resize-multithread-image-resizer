@@ -68,8 +68,8 @@ class menu_button:
         # Geometric properties
         self.int_padx = 5
         self.int_pady = 0
-        self.ext_padx = 3
-        self.ext_pady = 3
+        self.ext_padx = 2
+        self.ext_pady = 4
         self.bd = 0
 
         self.menu_button = Tkinter.Button(self.parent,command=self.command,activeforeground=self.act_fg,activebackground=self.act_bg,text=self.text,bg=self.bg,bd=self.bd,fg=self.fg,padx=self.int_padx,pady=self.int_pady,font=self.font)

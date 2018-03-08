@@ -107,7 +107,8 @@ class frame_menu:
         # Geometric properties
         self.height = height              # Altezza
         self.pady = 0
+        self.padx = 1
 
         # Instancer
-        self.frame = Tkinter.Frame(self.root,height=self.height,bg=self.bg,pady=self.pady)
+        self.frame = Tkinter.Frame(self.root,height=self.height,padx=self.padx,bg=self.bg,pady=self.pady)
         self.frame.pack(fill="x")

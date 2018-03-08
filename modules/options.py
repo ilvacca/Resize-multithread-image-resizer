@@ -7,7 +7,7 @@ class option_panel:
         self.opt_panel = Tkinter.Toplevel(parent)
         self.opt_panel.title("Options")
         self.opt_panel.geometry("300x200")
-        self.opt_panel.configure(background='#252525')
+        self.opt_panel.configure(background='#202020')
         self.opt_panel.iconbitmap("images/Iconv1.ico")
 
         Tkinter.Label(self.opt_panel, text="Value").pack()

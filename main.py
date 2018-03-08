@@ -12,6 +12,7 @@ from header import header
 #from menu import menu
 from frames import frame, frame_number, frame_text, frame_menu
 from options import option_panel
+from about import about_panel
 from logconsole import TraceConsole
 from button import button, menu_button
 from subframe import subframe
@@ -102,6 +103,7 @@ class App:
         self.hasOutputFolder = False
         self.image_list = False
         self.output_folder = None
+        self.version = 0.5
 
         self.geometry_method = Tkinter.StringVar()
 
@@ -112,8 +114,8 @@ class App:
 
         self.menu = frame_menu(root, "#151515", 15)
         self.menu_button_options = menu_button(self.menu.frame,self.open_option_panel,"OPTIONS")
-        self.menu_button_help = menu_button(self.menu.frame,None,"HELP")
-        self.menu_button_about = menu_button(self.menu.frame,None, "ABOUT")
+        self.menu_button_about = menu_button(self.menu.frame,self.open_about_panel, "ABOUT")
+        self.menu_button_help = menu_button(self.menu.frame,None,"?")
 
     # HEADER ----------------------
         self.header = header(root,"images/Header1.png")
@@ -179,6 +181,12 @@ class App:
         self.option = option_panel(root)
         self.option.opt_panel.grab_set()
         self.option.opt_panel.after(50, lambda: self.option.opt_panel.focus_force())
+
+    def open_about_panel(self):
+        self.about = about_panel(root,self.version)
+        self.about.about_panel.grab_set()
+        self.about.about_panel.after(50, lambda: self.about.about_panel.focus_force())
+
 
     def empty_entries(self):
         self.entry_W_row1.entry.delete(0,Tkinter.END)
