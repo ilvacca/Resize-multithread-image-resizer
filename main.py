@@ -24,19 +24,18 @@ class image_list:
         self.namelist=[]
         self.width_output=0
         self.listIsEmpty = True
+        self.input_file_types = (("PNG files","*.png"),("JPEG files","*.jpg *.jpeg"),("BMP files","*.bmp"),("all files","*.*"))
         try:
-            self.list = tkFileDialog.askopenfilename(initialdir = "C:/",title = "Select images",filetypes = (("PNG files","*.png"),("JPEG files","*.jpg *.jpeg"),("all files","*.*")),multiple=1)
+            self.list = tkFileDialog.askopenfilename(initialdir = "C:/",title = "Select images",filetypes = self.input_file_types,multiple=1)
             self.path = os.path.dirname(self.list[0])+"/"
             self.listIsEmpty = False
             for f in self.list:
                 self.namelist.append(f.replace(self.path,""))
         except:
             self.listIsEmpty = True
-            #print "%s - No images selected" % (actual_time())
         
     def set_destination_folder(self):
         self.destination_folder=tkFileDialog.askdirectory(parent=root,initialdir=self.path,title='Destination directory')
-        #print "%s - Destination folder selected '%s'"%(actual_time(),self.destination_folder)
 
     def set_output_extension(self,ext):
         self.output_extension=ext
@@ -44,7 +43,6 @@ class image_list:
             self.output_extension = "jpg"
         elif self.output_extension.lower() == ("png" or "PNG"):
             self.output_extension = "png"
-        #print "%s - Destination ouput extension selected '%s'"%(actual_time(),self.output_extension)
 
     def set_resize_parameters(self,w_out,h_out):
         self.width_output = w_out
@@ -57,7 +55,6 @@ class image_list:
                 namefile = str(self.namelist[image_index][:-4])+'.'+self.output_extension
                 image = resizeimage.resize_cover(image.convert("RGB"), [WW, HH])
                 image.save(self.destination_folder+"/"+namefile,"JPEG",quality=100)
-                #print "%s - %d/%d - Saved %s" % (actual_time(),len(self.list),namefile)
 
     def resize(self):
         counter=0
@@ -72,7 +69,6 @@ class image_list:
                         namefile = str(file[:-4])+'.'+self.output_extension
                         image = resizeimage.resize_cover(image.convert("RGB"), [self.width_output, self.height_output])
                         image.save(self.destination_folder+"/"+namefile,"JPEG",quality=100)
-                        #print "%s - %d/%d - Saved %s" % (actual_time(),counter,len(self.list),namefile)
 
 class App:
 
@@ -92,7 +88,7 @@ class App:
         # Tkinter properties
         root.title("RESIZE")
         self.root_width = 300
-        self.root_height = 518
+        self.root_height = 519
         self.centerX=((root.winfo_screenwidth()/2)-self.root_width/2)
         self.centerY =((root.winfo_screenheight()/2)-self.root_height/2)
         root.geometry("%sx%s+%s+%s"%(self.root_width,self.root_height,self.centerX,self.centerY))
@@ -100,13 +96,16 @@ class App:
         root.iconbitmap("images/Iconv1.ico")
         root.resizable(False, False)                ################################# LEVARE COMMENTO IN FUTURO
 
+
         self.font = ("Arial",8)
 
         self.hasImageList = False
         self.hasOutputFolder = False
         self.image_list = False
         self.output_folder = None
-        self.version = "0.55.03.8"
+        self.version = "0.55.03.9"
+
+        self.image_index = 0
 
         self.geometry_method = Tkinter.StringVar()
 
@@ -348,13 +347,12 @@ class App:
 
         if self.ready_to_resize and self.equals_dimensions:
             self.button_start_resize.set_inner_text("START RESIZING")
-            self.logger.log("Resizing [%sx%s]"%(self.output_width,self.output_height))
+            self.resize_image_list()
             self.ready_to_resize = False
             self.equals_dimensions = False
             self.oldW, self.oldH = None, None
             self.output_width, self.output_height = None, None
             self.empty_entries()
-
         elif (type(self.output_height)==int) and (type(self.output_width)==int):
             if (self.output_width > 0 ) and (self.output_height > 0):
                 if (self.output_width == self.oldW) and (self.output_height ==  self.oldH):
@@ -369,10 +367,8 @@ class App:
                     self.button_start_resize.set_inner_text("RECLICK TO CONFIRM")
                     self.logger.log("Are you ready? Reclick to confirm")
                     self.ready_to_resize = False
-
                 self.oldW = self.output_width
                 self.oldH = self.output_height
-
             else:
                 print "Numeri non validi"
                 self.ready_to_resize = False
@@ -380,16 +376,22 @@ class App:
             print "Numeri non validi"
             self.ready_to_resize = False
 
-    ## OLD DEF BELOW
-
-    def batch_resizer(self,W,H):
-        self.logger.log("Resizing (%s/%s) %s"%(0+1,len(self.image_list.namelist),self.image_list.namelist[0]))
-        self.image_list.resize_a_single_image(0,W,H)
-
-    def select_output_directory(self):
-        self.image_list.set_destination_folder()
-        df = self.image_list.destination_folder
-        self.ready_to_set_resizer_switcher(df)
+    def resize_image_list(self):
+        self.logger.log("Resizing [%sx%s]" % (self.output_width, self.output_height))
+        try:
+            for image_index in range(0,len(self.image_list.namelist)):
+                act_image = image_index+1
+                tot_images = len(self.image_list.namelist)
+                if len(self.image_list.namelist[image_index]) > 23:
+                    points = "..."
+                else:
+                    points = ""
+                self.logger.log("Resizing '%s%s' (%s/%s)"%(self.image_list.namelist[image_index][:24],points,act_image,tot_images))
+                self.image_list.resize_a_single_image(image_index,self.output_width,self.output_height)
+                self.logger._log.update()
+        except:
+            self.logger.log("Error during resizing. Check files and folders.")
+        self.logger.log("Done!")
 
 root = Tkinter.Tk()
 app = App(root)
