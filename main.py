@@ -8,14 +8,14 @@ import tkFileDialog
 import sys
 sys.path.insert(0, "modules")
 
-from header import header
-from frames import frame, frame_number, frame_text, frame_menu
-from options import option_panel
-from about import about_panel
+from header     import header
+from frames     import frame, frame_number, frame_text, frame_menu
+from options    import option_panel
+from about      import about_panel
 from logconsole import TraceConsole
-from button import button, menu_button
-from subframe import subframe
-from entry import entry, entry_selector
+from button     import button, menu_button
+from subframe   import subframe
+from entry      import entry, entry_selector
 
 class image_list:
 
@@ -24,16 +24,33 @@ class image_list:
         self.namelist=[]
         self.width_output=0
         self.listIsEmpty = True
+        self.isCongruent = False
+        self.inputExtension = ""
+        self.inputW, self.inputH = 0, 0
         self.input_file_types = (("PNG files","*.png"),("JPEG files","*.jpg *.jpeg"),("BMP files","*.bmp"),("all files","*.*"))
+
         try:
-            self.list = tkFileDialog.askopenfilename(initialdir = "C:/",title = "Select images",filetypes = self.input_file_types,multiple=1)
+            self.list = tkFileDialog.askopenfilename(initialdir="C:/",title="Select images",filetypes=self.input_file_types,multiple=1)
             self.path = os.path.dirname(self.list[0])+"/"
             self.listIsEmpty = False
             for f in self.list:
                 self.namelist.append(f.replace(self.path,""))
         except:
             self.listIsEmpty = True
-        
+
+        for image in self.namelist:
+            im = Image.open(self.path+"/"+image)
+            if self.inputW == 0 and self.inputH == 0:
+                self.inputW,self.inputH,self.inputExtension = im.size[0],im.size[1],im.format
+            elif im.size[0] == self.inputW and im.size[1] == self.inputH and self.inputExtension == im.format:
+                print "Cong"
+                self.isCongruent = True
+            elif im.size[0] != self.inputW and im.size[1] != self.inputH or self.inputExtension != im.format:
+                print "Not Cong"
+                self.isCongruent = False
+
+        print "List image is congruent?", self.isCongruent
+
     def set_destination_folder(self):
         self.destination_folder=tkFileDialog.askdirectory(parent=root,initialdir=self.path,title='Destination directory')
 
@@ -96,7 +113,6 @@ class App:
         root.iconbitmap("images/Iconv1.ico")
         root.resizable(False, False)                ################################# LEVARE COMMENTO IN FUTURO
 
-
         self.font = ("Arial",8)
 
         self.hasImageList = False
@@ -158,15 +174,12 @@ class App:
 
         root.config(bd=0)
 
-    # MENU ------------------------
-        #self.menu = menu(root)
-
-    # LOG
+    # LOG -------------------------
         self.logger = TraceConsole(root)
         self.logger.log("Welcome to RESIZƎ!")
         self.logger.log("Please select images to resize")
 
-    # FOOTER FRAME ----------------
+    # FOOTER ----------------------
 
         self.footer = frame(root,"#D54A4E",None,None,None,None,5)
 
@@ -188,7 +201,6 @@ class App:
         self.about = about_panel(root,self.version)
         self.about.about_panel.grab_set()
         self.about.about_panel.after(50, lambda: self.about.about_panel.focus_force())
-
 
     def empty_entries(self):
         self.entry_W_row1.entry.delete(0,Tkinter.END)
@@ -295,9 +307,11 @@ class App:
     def select_images(self):
         if not self.image_list:
             self.image_list = image_list()
-            if self.image_list.listIsEmpty:
+            print "List is congruent?",self.image_list.isCongruent
+            if self.image_list.listIsEmpty or not self.image_list.isCongruent:
                 self.image_list = False
-            elif self.image_list.listIsEmpty == False:
+                self.frame1_unexcited()
+            elif self.image_list.listIsEmpty == False and self.image_list.isCongruent:
                 self.frame1_excited(len(self.image_list.namelist))
         else:
             self.frame1_unexcited()
