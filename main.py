@@ -43,12 +43,15 @@ class image_list:
             if self.inputW == 0 and self.inputH == 0:
                 self.inputW,self.inputH,self.inputExtension = im.size[0],im.size[1],im.format
             elif im.size[0] == self.inputW and im.size[1] == self.inputH and self.inputExtension == im.format:
+                # TODO Delete
                 print "Cong"
                 self.isCongruent = True
             elif im.size[0] != self.inputW and im.size[1] != self.inputH or self.inputExtension != im.format:
+                # TODO Delete
                 print "Not Cong"
                 self.isCongruent = False
 
+        # TODO Delete
         print "List image is congruent?", self.isCongruent
 
     def set_destination_folder(self):
@@ -305,8 +308,10 @@ class App:
         self.frame3_disable()
 
     def select_images(self):
+        # TODO Add a messagebox that appear when image list is not congruent
         if not self.image_list:
             self.image_list = image_list()
+            # TODO Delete
             print "List is congruent?",self.image_list.isCongruent
             if self.image_list.listIsEmpty or not self.image_list.isCongruent:
                 self.image_list = False
