@@ -15,8 +15,9 @@ class entry_selector:
         # Color properties
         self.font = ("Arial", 8, "bold")
         self.background = "#404040"
-        self.act_background = "#F75C4C"
-        self.select_color = "#E74C3C"
+        self.act_background = "#1D3A41" #"#F75C4C"
+        self.select_color = "#22444D"
+        self.select_fg = "red"
         self.fg = "#CCC"
 
         # Geometric properties
@@ -58,11 +59,12 @@ class entry:
         self.state = "disabled"
 
         # Color properties
-        self.bg = "#606060"
+        self.bg = "#39636E"
         self.dis_bg = "#202020"
-        self.fg = "#F75C4C"
-        self.dis_fg = "#202020"
-        self.insert_bg = "#F75C4C"
+        self.fg = "#CCC"
+        self.dis_fg = self.dis_bg
+        self.insert_bg = "#BBB"
+        self.font = ("Arial",8,"bold")
 
         # Geometric properties
         self.bd = 0
@@ -77,7 +79,7 @@ class entry:
         # Instancer
         self.entry = Tkinter.Entry(self.root,bg=self.bg,disabledbackground=self.dis_bg,\
             disabledforeground=self.dis_fg,fg=self.fg,insertbackground=self.insert_bg,\
-            state=self.state,width=self.width,bd=self.bd,justify=self.justify)
+            state=self.state,width=self.width,bd=self.bd,justify=self.justify,font=self.font)
         self.entry.grid(row=self.row,column=self.column,padx=self.padx,ipady=self.ipady,\
             sticky=self.sticky)
 

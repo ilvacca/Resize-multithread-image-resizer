@@ -40,7 +40,10 @@ class image_list:
 
         for image in self.namelist:
             im = Image.open(self.path+"/"+image)
-            if self.inputW == 0 and self.inputH == 0:
+            if len(self.namelist) == 1:
+                print "Cong"
+                self.isCongruent = True
+            elif self.inputW == 0 and self.inputH == 0:
                 self.inputW,self.inputH,self.inputExtension = im.size[0],im.size[1],im.format
             elif im.size[0] == self.inputW and im.size[1] == self.inputH and self.inputExtension == im.format:
                 # TODO Delete
@@ -277,7 +280,7 @@ class App:
 
     def frame2_unexcited(self):
         self.button_select_folder.set_inner_text("SELECT FOLDER")
-        self.text2.set_text("Select an output folder")
+        self.text2.set_text("Waiting for a folder...")
         self.output_folder = None
         self.button_select_folder.unexcited()
         self.frame2.unexcited()
@@ -302,7 +305,7 @@ class App:
         self.frame1.unexcited()
         self.number1.unexcited()
         self.text1.unexcited()
-        self.text1.set_text("Select some images")
+        self.text1.set_text("Waiting for images...")
         self.button_select_folder.is_clickable(False)
         self.frame2_unexcited()
         self.frame3_disable()
