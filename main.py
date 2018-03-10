@@ -26,6 +26,7 @@ class image_list:
         self.listIsEmpty = True
         self.isCongruent = False
         self.inputExtension = ""
+        self.images_aspect_ratio = 0
         self.inputW, self.inputH = 0, 0
         self.input_file_types = (("PNG files","*.png"),("JPEG files","*.jpg *.jpeg"),("BMP files","*.bmp"),("TIF files","*.tiff *.tif"),("all files","*.*"))
 
@@ -42,25 +43,32 @@ class image_list:
         for image in self.namelist:
             im = Image.open(self.path+"/"+image)
             self.check_image_integrity(im)
+            self.aspect_ratio_calculator(im)
             if len(self.namelist) == 1:
                 print "Cong"
                 self.isCongruent = True
             elif self.inputW == 0 and self.inputH == 0:
                 self.inputW,self.inputH,self.inputExtension = im.size[0],im.size[1],im.format
             elif im.size[0] == self.inputW and im.size[1] == self.inputH and self.inputExtension == im.format:
-                # TODO Delete string below
+                # TODO Delete print string below
                 print "Cong"
                 self.isCongruent = True
             elif im.size[0] != self.inputW and im.size[1] != self.inputH or self.inputExtension != im.format:
-                # TODO Delete string below
+                # TODO Delete print string below
                 print "Not Cong"
                 self.isCongruent = False
 
             # Set last image format as list format
             self.inputExtension = im.format
+            self.aspect_ratio_calculator(im)
 
-        # TODO Delete string below
+        # TODO Delete print string below
         print "List image is congruent?", self.isCongruent
+
+    def aspect_ratio_calculator(self,image):
+        self.images_aspect_ratio = max(image.size)*1.0/min(image.size)
+        # TODO Delete print string below
+        print self.images_aspect_ratio
 
     def check_image_integrity(self,image):
         """
@@ -95,7 +103,7 @@ class image_list:
             with Image.open(f) as image:
                 namefile = str(self.namelist[image_index][:-4])+'.'+self.output_extension
                 image = resizeimage.resize_cover(image.convert("RGB"), [WW, HH])
-                print image.verify()
+                self.check_image_integrity(image) # REVIEW Empower this command (insert a message box displaying something if not valid?)
                 image.save(self.destination_folder+"/"+namefile,"JPEG",quality=100)
 
     def resize(self):
@@ -363,9 +371,9 @@ class App:
 
     def calculate_width_or_height(self,worh,dimension):
         if dimension == "w":
-            return int(worh*2)
+            return int(worh*self.image_list.images_aspect_ratio)
         elif dimension == "h":
-            return int(worh/2)
+            return int(worh/self.image_list.images_aspect_ratio)
 
     def check_resize_values(self):
         # If the resizing method is set to "WH"
