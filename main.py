@@ -38,24 +38,42 @@ class image_list:
         except:
             self.listIsEmpty = True
 
+        # Cycling images in the name list to check their format, consistency and format
         for image in self.namelist:
             im = Image.open(self.path+"/"+image)
+            self.check_image_integrity(im)
             if len(self.namelist) == 1:
                 print "Cong"
                 self.isCongruent = True
             elif self.inputW == 0 and self.inputH == 0:
                 self.inputW,self.inputH,self.inputExtension = im.size[0],im.size[1],im.format
             elif im.size[0] == self.inputW and im.size[1] == self.inputH and self.inputExtension == im.format:
-                # TODO Delete
+                # TODO Delete string below
                 print "Cong"
                 self.isCongruent = True
             elif im.size[0] != self.inputW and im.size[1] != self.inputH or self.inputExtension != im.format:
-                # TODO Delete
+                # TODO Delete string below
                 print "Not Cong"
                 self.isCongruent = False
 
-        # TODO Delete
+            # Set last image format as list format
+            self.inputExtension = im.format
+
+        # TODO Delete string below
         print "List image is congruent?", self.isCongruent
+
+    def check_image_integrity(self,image):
+        """
+        This method check for single input image integrity. It returns a print if problems are founded
+
+        :param image:
+        :type image:
+        :return:
+        :rtype:
+
+        """
+        if image.verify() != None:
+            print image.verify()
 
     def set_destination_folder(self):
         self.destination_folder=tkFileDialog.askdirectory(parent=root,initialdir=self.path,title='Destination directory')
@@ -77,6 +95,7 @@ class image_list:
             with Image.open(f) as image:
                 namefile = str(self.namelist[image_index][:-4])+'.'+self.output_extension
                 image = resizeimage.resize_cover(image.convert("RGB"), [WW, HH])
+                print image.verify()
                 image.save(self.destination_folder+"/"+namefile,"JPEG",quality=100)
 
     def resize(self):
