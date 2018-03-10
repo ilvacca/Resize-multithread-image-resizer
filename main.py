@@ -27,7 +27,7 @@ class image_list:
         self.isCongruent = False
         self.inputExtension = ""
         self.inputW, self.inputH = 0, 0
-        self.input_file_types = (("PNG files","*.png"),("JPEG files","*.jpg *.jpeg"),("BMP files","*.bmp"),("all files","*.*"))
+        self.input_file_types = (("PNG files","*.png"),("JPEG files","*.jpg *.jpeg"),("BMP files","*.bmp"),("TIF files","*.tiff *.tif"),("all files","*.*"))
 
         try:
             self.list = tkFileDialog.askopenfilename(initialdir="C:/",title="Select images",filetypes=self.input_file_types,multiple=1)
