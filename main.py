@@ -8,15 +8,15 @@ import tkFileDialog
 import sys
 sys.path.insert(0, "modules")
 
-from header     import header
-from frames     import frame, frame_number, frame_text, frame_menu
-from options    import option_panel
-from about      import about_panel
-from logconsole import TraceConsole
-from button     import button, menu_button
-from subframe   import subframe
-from entry      import entry, entry_selector
-from warningpanels import warningpanel
+from header         import header
+from frames         import frame, frame_number, frame_text, frame_menu
+from options        import option_panel
+from about          import about_panel
+from logconsole     import TraceConsole
+from button         import button, menu_button
+from subframe       import subframe
+from entry          import entry, entry_selector
+from warningpanels  import warningpanel
 
 class image_list:
 
@@ -138,7 +138,7 @@ class App:
         # Tkinter properties
         root.title("RESIZE")
         self.root_width = 300
-        self.root_height = 519
+        self.root_height = 520
         self.centerX=((root.winfo_screenwidth()/2)-self.root_width/2)
         self.centerY =((root.winfo_screenheight()/2)-self.root_height/2)
         root.geometry("%sx%s+%s+%s"%(self.root_width,self.root_height,self.centerX,self.centerY))
@@ -152,7 +152,7 @@ class App:
         self.hasOutputFolder = False
         self.image_list = False
         self.output_folder = None
-        self.version = "0.55.03.9"
+        self.version = "0.60.03.12"
 
         self.image_index = 0
 
@@ -323,13 +323,13 @@ class App:
         # Disabling Frame 3
         self.frame3_disable()
 
-    def frame1_excited(self,number_of_images_in_list):
+    def frame1_excited(self,number_of_images_in_list,input_extension):
         self.button_select_images.set_inner_text("RESET IMAGE LIST")
         self.button_select_images.excited()
         self.frame1.excited()
         self.number1.excited()
         self.text1.excited()
-        self.text1.set_text("Selected %s images"%number_of_images_in_list)
+        self.text1.set_text("Selected %s %s images"%(number_of_images_in_list,input_extension))
         self.button_select_folder.is_clickable(True)
 
     def frame1_unexcited(self):        
@@ -345,11 +345,8 @@ class App:
         self.frame3_disable()
 
     def select_images(self):
-        # TODO Add a messagebox that appear when image list is not congruent
         if not self.image_list:
             self.image_list = image_list()
-            # TODO Delete string below
-            print "List is congruent?",self.image_list.isCongruent
             if self.image_list.listIsEmpty:
                 self.image_list = False
                 self.frame1_unexcited()
@@ -358,7 +355,7 @@ class App:
                 self.image_list = False
                 self.frame1_unexcited()
             elif self.image_list.listIsEmpty == False and self.image_list.isCongruent:
-                self.frame1_excited(len(self.image_list.namelist))
+                self.frame1_excited(len(self.image_list.namelist),self.image_list.inputExtension)
         else:
             self.frame1_unexcited()
 
