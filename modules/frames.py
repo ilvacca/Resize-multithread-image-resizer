@@ -1,8 +1,6 @@
 import Tkinter
 from supports import *
 
-selected_font = "Helvetica"
-
 class frame:
 
     def __init__(self,parent,bg,exc_bg,exc_fg,exc_fg_num,fg_num,height):
@@ -46,7 +44,7 @@ class frame_number:
         self.exc_fg = self.frame.exc_fg_num
 
         # Geometric properties
-        self.font_size = 30
+        self.font = ("Arial",30,"bold")
         self.sticky = "ns"
         self.padx = 40
         self.row = 0
@@ -54,7 +52,7 @@ class frame_number:
         self.rowspan = 5
 
         # Instancer
-        self.number = Tkinter.Label(self.frame.frame,text=number,bg=self.bg,fg=self.fg,font=(selected_font,self.font_size,"bold"),padx=self.padx)
+        self.number = Tkinter.Label(self.frame.frame,text=number,bg=self.bg,fg=self.fg,font=self.font,padx=self.padx)
         self.number.grid(row=self.row,column=self.column,rowspan=self.rowspan,sticky=self.sticky)
 
     def excited(self):
@@ -79,7 +77,7 @@ class frame_text:
         # Geometric properties
         self.row = 1
         self.column = 1
-        self.font = ("verdana",7)
+        self.font = ("Arial",8,"normal")
 
         # Instancer
         self.text = Tkinter.Label(self.frame.frame,text=text,bg=self.frame.bg,fg=self.fg,font=self.font)

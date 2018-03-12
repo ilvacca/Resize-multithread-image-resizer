@@ -30,7 +30,7 @@ class image_list:
         self.images_aspect_ratio = 0
         self.inputW, self.inputH = 0, 0
         self.resolutions = []
-        self.input_file_types = (("PNG files","*.png"),("JPEG files","*.jpg *.jpeg"),("BMP files","*.bmp"),("TIF files","*.tiff *.tif"),("all files","*.*"))
+        self.input_file_types = (("PNG files","*.png"),("JPEG files","*.jpg *.jpeg"),("BMP files","*.bmp"),("TIFF files","*.tiff *.tif"),("all files","*.*"))
 
         try:
             self.list = tkFileDialog.askopenfilename(initialdir="C:/",title="Select images",filetypes=self.input_file_types,multiple=1)

@@ -8,7 +8,7 @@ class TraceConsole:
         # Color properties
         self.bg = "#333"
         self.fg = "#999"
-        self.font = ("Arial",8)
+        self.font = ("Arial",8,"normal")
 
         self.padding = 6
         self.bd = 0
@@ -18,7 +18,7 @@ class TraceConsole:
         self.logger_container.pack()
 
         # Instancer
-        self._log = Tkinter.Text(self.logger_container, wrap=Tkinter.NONE, height=4,font=self.font)
+        self._log = Tkinter.Text(self.logger_container, wrap=Tkinter.NONE,height=4,font=self.font)
         self._log.configure(fg=self.fg,bg=self.bg,bd=self.bd,padx=self.padding,pady=self.padding)
         self._log.pack(fill="x")
         
