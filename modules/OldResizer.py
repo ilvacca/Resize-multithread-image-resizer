@@ -14,7 +14,7 @@ path = os.path.dirname(filelist[0])+"/"
 destination_folder=tkFileDialog.askdirectory(parent=root,initialdir=path,title='Destination directory')
 print "Found %d %s images in %s\n"%(len(filelist),filelist[0].split(".")[-1],path)
 
-# Select destination extention
+# Select output format
 destination_extention=raw_input("Destination extention [JPG,jpeg,png,bmp]: ")
 if destination_extention == "":
     destination_extention = "jpg"

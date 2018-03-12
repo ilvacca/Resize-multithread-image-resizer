@@ -3,7 +3,7 @@
 from resizeimage import resizeimage
 import os
 from PIL import Image
-import Tkinter
+import Tkinter, tkMessageBox
 import tkFileDialog
 import sys
 sys.path.insert(0, "modules")
@@ -16,6 +16,7 @@ from logconsole import TraceConsole
 from button     import button, menu_button
 from subframe   import subframe
 from entry      import entry, entry_selector
+from warningpanels import warningpanel
 
 class image_list:
 
@@ -28,6 +29,7 @@ class image_list:
         self.inputExtension = ""
         self.images_aspect_ratio = 0
         self.inputW, self.inputH = 0, 0
+        self.resolutions = []
         self.input_file_types = (("PNG files","*.png"),("JPEG files","*.jpg *.jpeg"),("BMP files","*.bmp"),("TIF files","*.tiff *.tif"),("all files","*.*"))
 
         try:
@@ -36,49 +38,53 @@ class image_list:
             self.listIsEmpty = False
             for f in self.list:
                 self.namelist.append(f.replace(self.path,""))
-        except:
-            self.listIsEmpty = True
 
-        # Cycling images in the name list to check their format, consistency and format
-        for image in self.namelist:
-            im = Image.open(self.path+"/"+image)
-            self.check_image_integrity(im)
-            self.aspect_ratio_calculator(im)
-            if len(self.namelist) == 1:
-                print "Cong"
-                self.isCongruent = True
-            elif self.inputW == 0 and self.inputH == 0:
-                self.inputW,self.inputH,self.inputExtension = im.size[0],im.size[1],im.format
-            elif im.size[0] == self.inputW and im.size[1] == self.inputH and self.inputExtension == im.format:
-                # TODO Delete print string below
-                print "Cong"
-                self.isCongruent = True
-            elif im.size[0] != self.inputW and im.size[1] != self.inputH or self.inputExtension != im.format:
-                # TODO Delete print string below
-                print "Not Cong"
-                self.isCongruent = False
+            # Cycling images in the name list to check their format, consistency and format
+            for image in self.namelist:
+                im = Image.open(self.path + "/" + image)
+
+                if len(self.namelist) == 1:
+                    self.isCongruent = True
+                elif self.inputW == 0 and self.inputH == 0:
+                    self.inputW, self.inputH, self.inputExtension = im.size[0], im.size[1], im.format
+                elif im.size[0] == self.inputW and im.size[1] == self.inputH and self.inputExtension == im.format:
+                    self.isCongruent = True
+                elif im.size[0] != self.inputW and im.size[1] != self.inputH or self.inputExtension != im.format:
+                    self.isCongruent = False
+                    break
+
+                # It checks current image integrity
+                self.check_image_integrity(im)
+
+                # Calculates current image aspect ratio
+                self.aspect_ratio_calculator(im)
+
+                # Add current image resolution to "resolutions" list
+                self.add_to_resolutions(im.size[0], im.size[1])
 
             # Set last image format as list format
             self.inputExtension = im.format
-            self.aspect_ratio_calculator(im)
 
-        # TODO Delete print string below
-        print "List image is congruent?", self.isCongruent
+        except:
+            self.listIsEmpty = True
+
+    def add_to_resolutions(self,w,h):
+        """
+        If current image resolution is not in the "resolutions list" add it to the same list
+        :param w: Width (first dimension) of the image
+        :param h: Height (second dimension) of the image
+        """
+        if (w,h) not in self.resolutions:
+            self.resolutions.append((w,h))
 
     def aspect_ratio_calculator(self,image):
         self.images_aspect_ratio = max(image.size)*1.0/min(image.size)
-        # TODO Delete print string below
-        print self.images_aspect_ratio
 
     def check_image_integrity(self,image):
         """
-        This method check for single input image integrity. It returns a print if problems are founded
-
-        :param image:
-        :type image:
-        :return:
-        :rtype:
-
+        This method check for single input image integrity. If problems are found it returns something
+        :param image: Image to check
+        :type image: It takes PIL Image object
         """
         if image.verify() != None:
             print image.verify()
@@ -125,14 +131,8 @@ class App:
     def __init__(self,root):
 
         """
-        INITIALIZE "APP" OBJECT
-
-        Keywords Argument:
-            root = Tkinter object in which the App will be packed() = Tk.Tkinter()
-
-        :type root: Tkinter object
-        :param root:
-
+        Initialize "App" object
+        :param root: Tkinter object in which the "App" will be packed()
         """
 
         # Tkinter properties
@@ -144,7 +144,7 @@ class App:
         root.geometry("%sx%s+%s+%s"%(self.root_width,self.root_height,self.centerX,self.centerY))
         root.configure(background='#252525')
         root.iconbitmap("images/Iconv1.ico")
-        root.resizable(False, False)                ################################# LEVARE COMMENTO IN FUTURO
+        root.resizable(False, False)
 
         self.font = ("Arial",8)
 
@@ -234,6 +234,13 @@ class App:
         self.about = about_panel(root,self.version)
         self.about.about_panel.grab_set()
         self.about.about_panel.after(50, lambda: self.about.about_panel.focus_force())
+        self.about.about_panel.lift()
+
+    def open_incongruent_images(self):
+        self.inc_images = warningpanel(root,self.image_list.resolutions)
+        self.inc_images.warningpanel.grab_set()
+        self.inc_images.warningpanel.after(50, lambda: self.inc_images.warningpanel.focus_force())
+        self.inc_images.warningpanel.lift()
 
     def empty_entries(self):
         self.entry_W_row1.entry.delete(0,Tkinter.END)
@@ -341,9 +348,13 @@ class App:
         # TODO Add a messagebox that appear when image list is not congruent
         if not self.image_list:
             self.image_list = image_list()
-            # TODO Delete
+            # TODO Delete string below
             print "List is congruent?",self.image_list.isCongruent
-            if self.image_list.listIsEmpty or not self.image_list.isCongruent:
+            if self.image_list.listIsEmpty:
+                self.image_list = False
+                self.frame1_unexcited()
+            elif not self.image_list.isCongruent:
+                self.open_incongruent_images()
                 self.image_list = False
                 self.frame1_unexcited()
             elif self.image_list.listIsEmpty == False and self.image_list.isCongruent:

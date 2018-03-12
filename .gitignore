@@ -9,6 +9,8 @@ Pipfile
 Pipfile.lock
 
 # Directories
+mockups
+images/others
 .idea
 .vscode
 

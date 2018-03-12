@@ -23,7 +23,7 @@ class about_panel:
         self.header_text_a_pady=4
         self.version_text_pady = 0
 
-        self.about_panel_width = 300
+        self.about_panel_width = self.header_width
         self.about_panel_height = 350
         self.centerX = int(((self.parent.winfo_screenwidth()/2)-(self.about_panel_width/2))*0.9)
         self.centerY = int(((self.parent.winfo_screenheight()/2)-(self.about_panel_height/2))*0.9)
