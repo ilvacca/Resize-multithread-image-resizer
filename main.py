@@ -109,7 +109,7 @@ class image_list:
             with Image.open(f) as image:
                 namefile = str(self.namelist[image_index][:-4])+'.'+self.output_extension
                 image = resizeimage.resize_cover(image.convert("RGB"), [WW, HH])
-                self.check_image_integrity(image) # REVIEW Empower this command (insert a message box displaying something if not valid?)
+                self.check_image_integrity(image) # REVIEW Power up this command (insert a message box displaying something if not valid?)
                 image.save(self.destination_folder+"/"+namefile,"JPEG",quality=100)
 
     def resize(self):
@@ -129,12 +129,11 @@ class image_list:
 class App:
 
     def __init__(self,root):
-
         """
         Initialize "App" object
         :param root: Tkinter object in which the "App" will be packed()
+        :type root: Tkinter object
         """
-
         # Tkinter properties
         root.title("RESIZE")
         self.root_width = 300
