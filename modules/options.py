@@ -3,7 +3,7 @@ import ttk
 
 class option_panel:
 
-    def __init__(self,parent):
+    def __init__(self,parent,output_extension):
 
         self.opt_panel = Tkinter.Toplevel(parent)
         self.opt_panel.title("Options")
@@ -13,7 +13,7 @@ class option_panel:
 
         self.output_frame = output_option_frame(self.opt_panel)
 
-        self.supported_extensions = ['JPEG','BMP','PNG']
+        self.supported_extensions = output_extension
         self.compressions = [100,90,80,70,60,50,40,30,20,10]
 
         self.extension_card = output_single_card(self.output_frame.frame,0,0,"Format:","The output format desired.\nEXAMPLE: 'image_resized_01.jpg'",self.supported_extensions)
@@ -171,7 +171,10 @@ class confirm_option_frame:
         self.frame.grid_columnconfigure(1, weight=1)
 
     def ok(self):
-        print "Ok"
+        stringasd = "ASD"
+        print "Closing panel"
+        self.parent.destroy()
+        return stringasd
 
     def cancel(self):
         self.parent.destroy()

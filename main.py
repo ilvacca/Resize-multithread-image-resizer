@@ -30,7 +30,15 @@ class image_list:
         self.images_aspect_ratio = 0
         self.inputW, self.inputH = 0, 0
         self.resolutions = []
+        self.images_depth = None
+        self.images_mode = None
+
         self.input_file_types = (("PNG files","*.png"),("JPEG files","*.jpg *.jpeg"),("BMP files","*.bmp"),("TIFF files","*.tiff *.tif"),("all files","*.*"))
+
+        self.default_output_file_type = "JPEG"
+
+        self.resampling_algorithms = [Image.NEAREST,Image.BILINEAR,Image.BICUBIC]
+        self.default_resampling_algorithm = Image.NEAREST
 
         try:
             self.list = tkFileDialog.askopenfilename(initialdir="C:/",title="Select images",filetypes=self.input_file_types,multiple=1)
@@ -62,11 +70,18 @@ class image_list:
                 # Add current image resolution to "resolutions" list
                 self.add_to_resolutions(im.size[0], im.size[1])
 
-            # Set last image format as list format
-            self.inputExtension = im.format
-
+            # Set last image properties as list properties
+            self.inputExtension = im.format     # JPG, BMP...
+            self.image_depth_calculator(im)     # 8, 10, 16 bits
+            self.images_mode = im.mode          # RGB, RGBA...
         except:
             self.listIsEmpty = True
+
+    def image_depth_calculator(self,image):
+        if self.inputExtension == "PNG":
+            self.images_depth = 24
+        else:
+            self.images_depth = image.bits
 
     def add_to_resolutions(self,w,h):
         """
@@ -103,14 +118,15 @@ class image_list:
         self.width_output = w_out
         self.height_output = h_out
 
-    def resize_a_single_image(self,image_index,WW,HH,OutExt="jpg"):
+    def resize_a_single_image(self,image_index,WW,HH,OutExt="JPEG"): # TODO Integrate a method to store options
         self.set_output_extension(OutExt)
         with open(self.path+"/"+self.namelist[image_index], 'r+b') as f:
-            with Image.open(f) as image:
-                namefile = str(self.namelist[image_index][:-4])+'.'+self.output_extension
-                image = resizeimage.resize_cover(image.convert("RGB"), [WW, HH])
-                self.check_image_integrity(image) # REVIEW Power up this command (insert a message box displaying something if not valid?)
-                image.save(self.destination_folder+"/"+namefile,"JPEG",quality=100)
+            with Image.open(f) as img:
+                img.load()
+                namefile = "%s%s%s"%(self.namelist[image_index].split(".")[0],'.',self.output_extension)
+                img = img.convert("RGB").resize((WW, HH),self.default_resampling_algorithm) # REVIEW: conversion to RGB is valid when converting from PNG to JPEG
+                destination_path = "%s%s%s"%(self.destination_folder,"/",namefile)
+                img.save(destination_path, OutExt, quality=100)
 
     def resize(self):
         counter=0
@@ -166,6 +182,8 @@ class App:
         self.menu_button_options = menu_button(self.menu.frame,self.open_option_panel,"OPTIONS")
         self.menu_button_about = menu_button(self.menu.frame,self.open_about_panel, "ABOUT")
         self.menu_button_help = menu_button(self.menu.frame,None,"?")
+
+        self.output_file_types = ["JPEG", "BMP", "PNG"]
 
     # HEADER ----------------------
         self.header = header(root,"images/Header1.png")
@@ -225,9 +243,10 @@ class App:
     # Output geometry rows enablers
 
     def open_option_panel(self):
-        self.option = option_panel(root)
+        self.option = option_panel(root,self.output_file_types)
         self.option.opt_panel.grab_set()
         self.option.opt_panel.after(50, lambda: self.option.opt_panel.focus_force())
+        print self.option
 
     def open_about_panel(self):
         self.about = about_panel(root,self.version)
@@ -434,19 +453,19 @@ class App:
 
     def resize_image_list(self):
         self.logger.log("Resizing [%sx%s]" % (self.output_width, self.output_height))
-        try:
-            for image_index in range(0,len(self.image_list.namelist)):
-                act_image = image_index+1
-                tot_images = len(self.image_list.namelist)
-                if len(self.image_list.namelist[image_index]) > 23:
-                    points = "..."
-                else:
-                    points = ""
-                self.logger.log("Resizing '%s%s' (%s/%s)"%(self.image_list.namelist[image_index][:24],points,act_image,tot_images))
-                self.image_list.resize_a_single_image(image_index,self.output_width,self.output_height)
-                self.logger._log.update()
-        except:
-            self.logger.log("Error during resizing. Check files and folders.")
+        #try: # REVIEW
+        for image_index in range(0,len(self.image_list.namelist)):
+            act_image = image_index+1
+            tot_images = len(self.image_list.namelist)
+            if len(self.image_list.namelist[image_index]) > 23:
+                points = "..."
+            else:
+                points = ""
+            self.logger.log("Resizing '%s%s' (%s/%s)"%(self.image_list.namelist[image_index][:24],points,act_image,tot_images))
+            self.image_list.resize_a_single_image(image_index,self.output_width,self.output_height)
+            self.logger._log.update()
+        #except:
+        #    self.logger.log("Error during resizing. Check files and folders.")
         self.logger.log("Done!")
 
 root = Tkinter.Tk()
