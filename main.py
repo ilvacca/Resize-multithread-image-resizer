@@ -184,6 +184,7 @@ class App:
         self.menu_button_help = menu_button(self.menu.frame,None,"?")
 
         self.output_file_types = ["JPEG", "BMP", "PNG"]
+        self.options = {"output":"JPEG","quality":100,"resampling":"NEAREST"}
 
     # HEADER ----------------------
         self.header = header(root,"images/Header1.png")
@@ -243,10 +244,10 @@ class App:
     # Output geometry rows enablers
 
     def open_option_panel(self):
-        self.option = option_panel(root,self.output_file_types)
+        self.option = option_panel(root,self.output_file_types,self.options)
         self.option.opt_panel.grab_set()
         self.option.opt_panel.after(50, lambda: self.option.opt_panel.focus_force())
-        print self.option
+        print self.options
 
     def open_about_panel(self):
         self.about = about_panel(root,self.version)
