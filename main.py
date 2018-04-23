@@ -176,7 +176,7 @@ class App:
         self.hasOutputFolder = False
         self.image_list = False
         self.output_folder = None
-        self.version = "0.60.03.12"
+        self.version = "0.9"
 
         self.image_index = 0
 
