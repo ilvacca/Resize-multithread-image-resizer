@@ -1,13 +1,11 @@
 # coding=utf-8
-
-from resizeimage import resizeimage
+#from resizeimage import resizeimage
 import os
 from PIL import Image
 import Tkinter, tkMessageBox
 import tkFileDialog
 import sys
 sys.path.insert(0, "modules")
-
 from header         import header
 from frames         import frame, frame_number, frame_text, frame_menu
 from options        import option_panel
@@ -111,36 +109,47 @@ class image_list:
         self.output_extension=ext
         if self.output_extension.lower() == ("" or "jpg" or "jpeg"):
             self.output_extension = "jpg"
-        elif self.output_extension.lower() == ("png" or "PNG"):
+        elif self.output_extension.lower() == "png":
             self.output_extension = "png"
+        elif self.output_extension.lower() == "bmp":
+            self.output_extension = "bmp"
 
     def set_resize_parameters(self,w_out,h_out):
         self.width_output = w_out
         self.height_output = h_out
 
-    def resize_a_single_image(self,image_index,WW,HH,OutExt="JPEG"): # TODO Integrate a method to store options
-        self.set_output_extension(OutExt)
+    def resize_a_single_image(self,image_index,WW,HH,options):
+        out = options["output"]
+        quality = int(options["quality"])
+        resampling = options["resampling"]
+        if resampling == "NEAREST":
+            self.resampling_algorithm = Image.NEAREST
+        elif resampling == "BILINEAR":
+            self.resampling_algorithm = Image.BILINEAR
+        elif resampling == "BICUBIC":
+            self.resampling_algorithm = Image.BICUBIC
+        self.set_output_extension(out)
         with open(self.path+"/"+self.namelist[image_index], 'r+b') as f:
             with Image.open(f) as img:
                 img.load()
                 namefile = "%s%s%s"%(self.namelist[image_index].split(".")[0],'.',self.output_extension)
-                img = img.convert("RGB").resize((WW, HH),self.default_resampling_algorithm) # REVIEW: conversion to RGB is valid when converting from PNG to JPEG
+                img = img.convert("RGB").resize((WW, HH),self.resampling_algorithm) # REVIEW: conversion to RGB is valid when converting from PNG to JPEG
                 destination_path = "%s%s%s"%(self.destination_folder,"/",namefile)
-                img.save(destination_path, OutExt, quality=100)
+                img.save(destination_path, out, quality=quality)
 
-    def resize(self):
-        counter=0
-        if self.width_output==0:
-            self.set_resize_parameters()
-            app.logger.log("")
-        else:
-            for file in self.namelist:
-                counter+=1
-                with open(self.path+"/"+file, 'r+b') as f:
-                    with Image.open(f) as image:
-                        namefile = str(file[:-4])+'.'+self.output_extension
-                        image = resizeimage.resize_cover(image.convert("RGB"), [self.width_output, self.height_output])
-                        image.save(self.destination_folder+"/"+namefile,"JPEG",quality=100)
+    #def resize(self):
+    #    counter=0
+    #    if self.width_output==0:
+    #        self.set_resize_parameters()
+    #        app.logger.log("")
+    #    else:
+    #        for file in self.namelist:
+    #            counter+=1
+    #            with open(self.path+"/"+file, 'r+b') as f:
+    #                with Image.open(f) as image:
+    #                    namefile = str(file[:-4])+'.'+self.output_extension
+    #                    image = resizeimage.resize_cover(image.convert("RGB"), [self.width_output, self.height_output])
+    #                    image.save(self.destination_folder+"/"+namefile,"JPEG",quality=100)
 
 class App:
 
@@ -244,10 +253,10 @@ class App:
     # Output geometry rows enablers
 
     def open_option_panel(self):
+        print id(self.options)
         self.option = option_panel(root,self.output_file_types,self.options)
         self.option.opt_panel.grab_set()
         self.option.opt_panel.after(50, lambda: self.option.opt_panel.focus_force())
-        print self.options
 
     def open_about_panel(self):
         self.about = about_panel(root,self.version)
@@ -463,7 +472,7 @@ class App:
             else:
                 points = ""
             self.logger.log("Resizing '%s%s' (%s/%s)"%(self.image_list.namelist[image_index][:24],points,act_image,tot_images))
-            self.image_list.resize_a_single_image(image_index,self.output_width,self.output_height)
+            self.image_list.resize_a_single_image(image_index,self.output_width,self.output_height,self.options)
             self.logger._log.update()
         #except:
         #    self.logger.log("Error during resizing. Check files and folders.")
