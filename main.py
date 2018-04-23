@@ -176,7 +176,7 @@ class App:
         self.hasOutputFolder = False
         self.image_list = False
         self.output_folder = None
-        self.version = "0.9"
+        self.version = "0.9.1"
 
         self.image_index = 0
 
@@ -253,7 +253,6 @@ class App:
     # Output geometry rows enablers
 
     def open_option_panel(self):
-        print id(self.options)
         self.option = option_panel(root,self.output_file_types,self.options)
         self.option.opt_panel.grab_set()
         self.option.opt_panel.after(50, lambda: self.option.opt_panel.focus_force())
