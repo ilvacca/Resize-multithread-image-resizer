@@ -1,5 +1,5 @@
 # Resize
-![GitHub repo size](https://img.shields.io/github/repo-size/ilvacca/Resize?style=flat-square) - ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Pillow?color=Red&style=flat-square) - ![](https://img.shields.io/badge/Project-Blue Journey-important)
+![GitHub repo size](https://img.shields.io/github/repo-size/ilvacca/Resize?style=flat-square) - ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Pillow?color=Red&style=flat-square) - ![](https://img.shields.io/badge/Project-Blue%20Journey-important)
 
 Resize is a super-fast **multithreaded batch image resizing tool**. You can convert dozens of images in couple of minutes. This tool was developed by an astrophotographer for astrophotographer to make **timelapses** or **startrails** pre-processing phases faster and easier.
 
