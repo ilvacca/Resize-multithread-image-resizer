@@ -7,7 +7,7 @@ def main():
     print("www.alessiovaccaro.com\n")
     controller = Controller()
     controller.resizeImages()
-    input("Press ENTER to close...")
+    input("\nPress ENTER to close...")
 
 if __name__ == "__main__":
     main()
