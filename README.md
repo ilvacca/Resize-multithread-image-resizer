@@ -20,7 +20,7 @@ The tool usage is straightforward:
 
 ## The Blue Journey Astrophotography Project
 ![Blue Journey Astrophotography Header](https://github.com/ilvacca/Resize/blob/master/images/blue-journey-header.jpg)
-The objective of Blue Journey is to spread astronomy in all its facets. Our photographs and videos will reveal a world as old as it is fascinating to the most curious. Tutorials, videos and technical guides, on the other hand, will satisfy those who, like me, need and want to know, improve and learn new techniques every day. Blue Journey was born for the astronomy enthusiast but also for the most demanding astrophotographer.
+The objective of [Blue Journey](https://www.bluejourneyastro.com) is to spread astronomy in all its facets. Our photographs and videos will reveal a world as old as it is fascinating to the most curious. Tutorials, videos and technical guides, on the other hand, will satisfy those who, like me, need and want to know, improve and learn new techniques every day. Blue Journey was born for the astronomy enthusiast but also for the most demanding astrophotographer.
 
 ## Credits
 
