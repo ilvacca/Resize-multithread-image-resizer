@@ -21,9 +21,7 @@ The tool usage is straightforward:
 
 The objective of Blue Journey is to spread astronomy in all its facets. Our photographs and videos will reveal a world as old as it is fascinating to the most curious. Tutorials, videos and technical guides, on the other hand, will satisfy those who, like me, need and want to know, improve and learn new techniques every day. Blue Journey was born for the astronomy enthusiast but also for the most demanding astrophotographer.
 
-Translated with www.DeepL.com/Translator
-
 ## CREDITS
 
 *This tool was developed with* ❤ *by Alessio Vaccaro*.
-[Website](www.alessiovaccaro.com) | [Portfolio](www.alessiovaccarophoto.com)
+[Website](https://www.alessiovaccaro.com) | www.alessiovaccarophoto.com
