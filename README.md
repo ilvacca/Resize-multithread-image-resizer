@@ -7,9 +7,9 @@ It **preserves EXIF informations** during conversion. TIFF, PNG and JPG currentl
 
 1. Choose the images you want to resize
 2. Set:
-	1. Output image quality
-	2. Image resampling algorithm
-	3. Length of the output image long size
+	1. Output image quality (from 0 to 100)
+	2. Image resampling algorithm (Nearest Neighbour, Bilinear)
+	3. Length of the output image long size (ex. 1920)
 	4. Output filename suffix (ex. "_CONVERTED")
 3. Resize!
 
