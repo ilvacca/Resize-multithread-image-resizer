@@ -24,7 +24,6 @@ class Controller:
             self._options.setOutputOptions()
             self._processor.process(self._bucket, self._options)
         self._logger("Ended resizing process")
-        input("Press ENTER to close...")
 
     # LOGGER ###########################################################################################################
 
