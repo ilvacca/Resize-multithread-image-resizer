@@ -1,5 +1,3 @@
-#!venv/Scripts/python
-
 from modules.controller import Controller
 
 def main():
