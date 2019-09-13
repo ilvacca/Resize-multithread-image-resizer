@@ -15,4 +15,4 @@ It **preserves EXIF informations** during conversion. TIFF, PNG and JPG currentl
 
 ## CREDITS
 
-*This tool has been developed with* ❤ *by Alessio Vaccaro* ( www.alessiovaccaro.com, www.alessiovaccarophoto.com )
+*This tool was developed with* ❤ *by Alessio Vaccaro* ( www.alessiovaccaro.com, www.alessiovaccarophoto.com )
