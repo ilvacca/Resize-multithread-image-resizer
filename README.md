@@ -1,10 +1,10 @@
 # Resize
-![GitHub repo size](https://img.shields.io/github/repo-size/ilvacca/Resize?style=flat-square)
+![GitHub repo size](https://img.shields.io/github/repo-size/ilvacca/Resize?style=flat-square)![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Pillow?color=Red&style=flat-square)
 
 Resize is a super-fast **multithreaded batch image resizing tool**. You can convert dozens of images in couple of minutes. This tool was developed by an astrophotographer for astrophotographer to make **timelapses** or **startrails** pre-processing phases faster and easier.
 It **preserves EXIF informations** like *Author*, *Date* or *ISO Speed* during conversion. TIFF, PNG and JPG currently supported.
 
-This tool is part of the [Blue Journey Astrophotography](www.bluejourneyastro.com) project (more info [below](#credits)).
+This tool is part of the [Blue Journey Astrophotography](https://www.bluejourneyastro.com) project (more info [below](#credits)).
 
 ## HOW IT WORKS
 The tool usage is straightforward:
@@ -24,4 +24,4 @@ The objective of Blue Journey is to spread astronomy in all its facets. Our phot
 ## CREDITS
 
 *This tool was developed with* ❤ *by Alessio Vaccaro*.
-[Website](https://www.alessiovaccaro.com) | www.alessiovaccarophoto.com
+[Website](https://www.alessiovaccaro.com) | [Portfolio](https://www.alessiovaccarophoto.com) | [BlueJourney](https://www.bluejourneyastro.com)
