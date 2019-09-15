@@ -15,7 +15,7 @@ The tool usage is straightforward:
 	1. Output **image quality** from 0 to 100 (suggested 95 for better results)
 	2. Image **resampling algorithm** (Nearest Neighbour, Bilinear)
 	3. Length of the output image **long size** (ex. 1920)
-	4. Output filename **suffix** (ex. "_CONVERTED")
+	4. Output filename **suffix** (ex. "[MYIMAGENAME]_CONVERTED")
 3. Resize!
 
 ## The Blue Journey Astrophotography Project
